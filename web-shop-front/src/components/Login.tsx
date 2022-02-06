@@ -1,13 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Container, TextField} from '@mui/material';
-import {Link} from 'react-router-dom';
-import {User} from '../models/User';
-import {RequestUser} from '../models/RequestUser';
-import {useStyles} from '../styles/Style';
-import MainAdmin from './admin/MainAdmin';
-import MainUser from './user/MainUser';
-import Alerts from './Alerts';
-import Header from './Header';
+import React, { useState, useEffect } from "react";
+import { Button, Container, TextField } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { User } from "../models/User";
+import { RequestUser } from "../models/RequestUser";
+import { useStyles } from "../styles/Style";
+import MainAdmin from "./admin/MainAdmin";
+import MainUser from "./user/MainUser";
+import Alerts from "./Alerts";
+import Header from "./Header";
 
 function Login() {
   const classes = useStyles();
@@ -18,7 +18,7 @@ function Login() {
   const [openAlert, setOpenAlert] = useState<boolean>(false);
 
   const storeCollector = () => {
-    let store = JSON.parse(localStorage.getItem('login')!);
+    let store = JSON.parse(localStorage.getItem("login")!);
     if (store && store.loggedIn) {
       setLoggedIn(true);
       setUser(store.user);
@@ -26,21 +26,21 @@ function Login() {
   };
 
   const login = () => {
-    let requestUser: RequestUser = new RequestUser('', '');
+    let requestUser: RequestUser = new RequestUser("", "");
     if (username !== null && password !== null) {
       requestUser.username = username;
       requestUser.password = password;
-      fetch('http://localhost:5000/api/user/authenticate', {
-        method: 'POST',
+      fetch("http://localhost:5000/api/user/authenticate", {
+        method: "POST",
         body: JSON.stringify(requestUser),
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       }).then((response) => {
         if (response.status !== 404) {
           response.json().then((result) => {
             console.log(result);
-            console.warn('result', result);
+            console.warn("result", result);
             let u: User = new User(
               result.id,
               result.name,
@@ -53,7 +53,7 @@ function Login() {
               result.image
             );
             localStorage.setItem(
-              'login',
+              "login",
               JSON.stringify({
                 loggedIn: true,
                 token: result.token,
@@ -79,14 +79,14 @@ function Login() {
 
   useEffect(() => {
     storeCollector();
-    const data = JSON.parse(localStorage.getItem('login')!);
+    const data = JSON.parse(localStorage.getItem("login")!);
     if (data) {
       setUser(JSON.parse(data.user));
     }
   }, []);
 
   return (
-      <>
+    <>
       {!loggedIn ? (
         <div className={classes.loginBackground}>
           <Container className={classes.loginContainer}>
@@ -96,7 +96,7 @@ function Login() {
               label="Korisnicko ime"
               variant="outlined"
               className={classes.loginElements}
-              value={username || ''}
+              value={username || ""}
               onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
@@ -105,7 +105,7 @@ function Login() {
               variant="outlined"
               className={classes.loginElements}
               type="password"
-              value={password || ''}
+              value={password || ""}
               onChange={(e) => setPassword(e.target.value)}
             />
             <Button
@@ -118,9 +118,9 @@ function Login() {
             <Button
               variant="contained"
               className={classes.loginButton}
-              style={{ backgroundColor: '#222431', color: '#4EB8CE' }}
+              style={{ backgroundColor: "#222431", color: "#4EB8CE" }}
               component={Link}
-              to="/kreirajnalog"
+              to="/register"
             >
               Kreiraj nalog
             </Button>
