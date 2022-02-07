@@ -30,7 +30,7 @@ function Login() {
     if (username !== null && password !== null) {
       requestUser.username = username;
       requestUser.password = password;
-      fetch("http://localhost:5000/api/user/authenticate", {
+      fetch("http://localhost:5000/api/user/login", {
         method: "POST",
         body: JSON.stringify(requestUser),
         headers: {
@@ -42,7 +42,6 @@ function Login() {
             console.log(result);
             console.warn("result", result);
             let u: User = new User(
-              result.id,
               result.name,
               result.surname,
               result.phone,

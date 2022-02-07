@@ -115,7 +115,6 @@ function CreateAccount() {
     if (validation()) {
       if (image === null) setImage("");
       const user: User = new User(
-        0,
         name!,
         surname!,
         phone!,
@@ -125,6 +124,7 @@ function CreateAccount() {
         false,
         image!
       );
+
       try {
         const res = await AddUser(user);
         if (res.error || res.status === 404) {
