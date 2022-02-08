@@ -37,7 +37,7 @@ function Login() {
           "Content-Type": "application/json",
         },
       }).then((response) => {
-        if (response.status !== 404) {
+        if (response.status !== 401) {
           response.json().then((result) => {
             console.log(result);
             console.warn("result", result);

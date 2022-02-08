@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Data;
 using Data.Interfaces;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service
 {
@@ -43,12 +44,21 @@ namespace Service
             return _context.Users.Any(user => user.Username == username);
         }
 
-        public IEnumerable<User> GetUser(int userId)
+        public async Task<User> Login(string username, string password)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
+
+                return user;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public User Login(string username, string password)
+        public IEnumerable<User> GetUser(int userId)
         {
             throw new NotImplementedException();
         }
