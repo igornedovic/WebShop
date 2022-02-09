@@ -8,7 +8,7 @@ namespace Data.Interfaces
 {
     public interface IUserService
     {
-        IEnumerable<User> GetUser(int userId);
+        User GetUser(int userId);
         Task<User> Login(string username, string password);
         Task<bool> AddUser(User user);
         bool UpdateUser(int userId, User user);

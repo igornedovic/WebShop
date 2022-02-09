@@ -58,9 +58,16 @@ namespace Service
             }
         }
 
-        public IEnumerable<User> GetUser(int userId)
+        public User GetUser(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _context.Users.Where(u => u.UserId == userId).SingleOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public bool UpdateUser(int userId, User user)
