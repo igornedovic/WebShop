@@ -8,7 +8,7 @@ interface Props {
   user: User;
 }
 
-function MainUser(props: Props) {
+function MainUser() {
   return (
     <div>
       <h1>This is MainUser</h1>

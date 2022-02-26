@@ -1,21 +1,14 @@
 export class Manufacturer {
-  id: number;
+  id: number = 0;
   name: string;
   phone: string;
   email: string;
-  adress: string;
+  address: string;
 
-  constructor(
-    id: number,
-    name: string,
-    phone: string,
-    email: string,
-    adress: string
-  ) {
-    this.id = id;
+  constructor(name: string, phone: string, email: string, address: string) {
     this.name = name;
     this.phone = phone;
     this.email = email;
-    this.adress = adress;
+    this.address = address;
   }
 }

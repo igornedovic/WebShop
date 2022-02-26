@@ -58,6 +58,8 @@ namespace API
             });
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IManufacturerService, ManufacturerService>();
+            services.AddScoped<IProductTypeService, ProductTypeService>();
             services.AddScoped<ITokenService, TokenService>();
 
             var appSettingsSection = Configuration.GetSection("AppSettings");

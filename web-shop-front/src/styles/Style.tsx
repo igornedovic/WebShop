@@ -64,7 +64,7 @@ export const useStyles = makeStyles(() =>
     },
     loginButton: {
       borderRadius: "5px",
-      margin: "3%",
+      margin: "3px",
       backgroundColor: "#4EB8CE",
       color: "#222431",
     },
