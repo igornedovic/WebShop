@@ -19,6 +19,17 @@ namespace API.Controllers
 
         }
 
+        // GET: api/productType
+        [HttpGet]
+        public async Task<ActionResult<List<ProductType>>> GetAllProductTypes()
+        {
+            var productTypes = await _productTypeService.GetAllProductTypes();
+
+            if (productTypes == null || productTypes.Count() == 0) return NotFound();
+
+            return Ok(productTypes);
+        }
+
         // POST: api/productType
         [HttpPost]
         public async Task<ActionResult> AddProductType(ProductType productType)

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Data;
 using Data.Interfaces;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service
 {
@@ -16,6 +17,19 @@ namespace Service
             _context = context;
 
         }
+
+        public async Task<List<ProductType>> GetAllProductTypes()
+        {
+            try
+            {
+                return await _context.ProductTypes.ToListAsync();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
         public async Task<bool> AddProductType(ProductType productType)
         {
             try
@@ -35,9 +49,5 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public Task<List<ProductType>> GetAllProductTypes()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

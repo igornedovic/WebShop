@@ -1,5 +1,5 @@
 export class Manufacturer {
-  id: number = 0;
+  id: number | undefined;
   name: string;
   phone: string;
   email: string;

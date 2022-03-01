@@ -1,5 +1,5 @@
 export class ProductType {
-  id: number = 0;
+  id: number | undefined;
   name: string;
 
   constructor(name: string) {

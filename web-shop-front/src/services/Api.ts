@@ -16,24 +16,34 @@ export async function AddUser(user: User) {
   return await response.json();
 }
 
+export async function GetAllManufacturers(): Promise<Manufacturer[]> {
+  const response = await fetch(baseUrl + "/manufacturer");
+  return await response.json();
+}
+
 export async function AddManufacturer(manufacturer: Manufacturer) {
-  const res = await fetch(baseUrl + "/manufacturer", {
+  const response = await fetch(baseUrl + "/manufacturer", {
     method: "POST",
     body: JSON.stringify(manufacturer),
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return await res.json();
+  return await response.json();
+}
+
+export async function GetAllProductTypes(): Promise<Manufacturer[]> {
+  const response = await fetch(baseUrl + "/productType");
+  return await response.json();
 }
 
 export async function AddProductType(productType: ProductType) {
-  const res = await fetch(baseUrl + "/productType", {
+  const response = await fetch(baseUrl + "/productType", {
     method: "POST",
     body: JSON.stringify(productType),
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return await res.json();
+  return await response.json();
 }

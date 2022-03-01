@@ -8,7 +8,7 @@ namespace Data.Interfaces
 {
     public interface IManufacturerService
     {
-        IEnumerable<Manufacturer> GetAllManufacturers();
+        Task<IEnumerable<Manufacturer>> GetAllManufacturers();
         Task<bool> AddManufacturer(Manufacturer manufacturer);
         Task<bool> DeleteManufacturer(int id);
     }

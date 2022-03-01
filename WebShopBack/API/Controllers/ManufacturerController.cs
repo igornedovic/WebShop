@@ -19,6 +19,17 @@ namespace API.Controllers
             _manufacturerService = manufacturerService;
         }
 
+        // GET: api/manufacturer
+        [HttpGet]
+        public async Task<ActionResult<List<Manufacturer>>> GetAllManufacturers()
+        {
+            var manufacturers = await _manufacturerService.GetAllManufacturers();
+
+            if (manufacturers == null || manufacturers.Count() == 0) return NotFound();
+
+            return Ok(manufacturers);
+        }
+
         // POST: api/manufacturer
         [HttpPost]
         public async Task<ActionResult> AddManufacturer(Manufacturer manufacturer)

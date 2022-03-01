@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Data;
 using Data.Interfaces;
 using Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Service
 {
@@ -14,6 +15,18 @@ namespace Service
         public ManufacturerService(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<Manufacturer>> GetAllManufacturers()
+        {
+            try
+            {
+                return await _context.Manufacturers.ToListAsync();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
         public async Task<bool> AddManufacturer(Manufacturer manufacturer)
         {
@@ -34,9 +47,5 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Manufacturer> GetAllManufacturers()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
