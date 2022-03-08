@@ -3,7 +3,7 @@ import { Manufacturer } from "./Manufacturer";
 import { ProductType } from "./ProductType";
 
 export class Product {
-  id: number;
+  id: number | undefined;
   name: string;
   price: number;
   characteristics: Characteristics[] = new Array(300);
@@ -11,14 +11,12 @@ export class Product {
   productType: ProductType;
 
   constructor(
-    id: number,
     name: string,
     price: number,
     characteristics: Characteristics[],
     manufacturer: Manufacturer,
     productType: ProductType
   ) {
-    this.id = id;
     this.name = name;
     this.price = price;
     this.characteristics = characteristics;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +15,12 @@ namespace Data.Models
         public string Name { get; set; }
         [Required]
         public double Price { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int ProductTypeId { get; set; }
         public ProductType ProductType { get; set; }
-        public IEnumerable<Characteristic> Characteristics { get; set; }
+        public List<Characteristic> Characteristics { get; set; } = new List<Characteristic>();
     }
 }

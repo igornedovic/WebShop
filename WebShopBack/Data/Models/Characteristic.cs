@@ -8,8 +8,10 @@ namespace Data.Models
 {
     public class Characteristic
     {
-        [Key]
+
         public int ID { get; set; }
+        public int ProductId { get; set; }
+        public Product Product { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

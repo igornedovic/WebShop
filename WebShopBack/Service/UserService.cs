@@ -48,6 +48,11 @@ namespace Service
         {
             try
             {
+                if (_admin.Username == username && _admin.Password == password)
+                {
+                    return _admin;
+                }
+
                 var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
 
                 return user;

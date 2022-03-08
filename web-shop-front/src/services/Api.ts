@@ -1,6 +1,7 @@
 import { User } from "../models/User";
 import { Manufacturer } from "../models/Manufacturer";
 import { ProductType } from "../models/ProductType";
+import { Product } from "../models/Product";
 
 const baseUrl = "http://localhost:5000/api";
 
@@ -41,6 +42,17 @@ export async function AddProductType(productType: ProductType) {
   const response = await fetch(baseUrl + "/productType", {
     method: "POST",
     body: JSON.stringify(productType),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return await response.json();
+}
+
+export async function AddProduct(product: Product) {
+  const response = await fetch(baseUrl + `/product`, {
+    method: "POST",
+    body: JSON.stringify(product),
     headers: {
       "Content-Type": "application/json",
     },
