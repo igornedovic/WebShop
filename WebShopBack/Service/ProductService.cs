@@ -22,12 +22,12 @@ namespace Service
         {
             try
             {
-                product.ManufacturerId = product.Manufacturer.ID;
-                product.ProductTypeId = product.ProductType.ID;
-                _context.Entry(product.Manufacturer).State = EntityState.Unchanged;
-                _context.Entry(product.ProductType).State = EntityState.Unchanged;
+                // product.ManufacturerId = product.Manufacturer.ID;
+                // product.ProductTypeId = product.ProductType.ID;
+                // _context.Entry(product.Manufacturer).State = EntityState.Unchanged;
+                // _context.Entry(product.ProductType).State = EntityState.Unchanged;
                 _context.Products.Add(product);
-                _context.Characteristics.AddRange(product.Characteristics);
+
                 await _context.SaveChangesAsync();
                 return true;
             }

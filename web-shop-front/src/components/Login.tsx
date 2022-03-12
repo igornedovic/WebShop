@@ -36,7 +36,6 @@ function Login() {
       }).then((response) => {
         if (response.status !== 401) {
           response.json().then((result) => {
-            console.log(result);
             console.warn("result", result);
             let u: User = new User(
               result.name,
@@ -58,7 +57,6 @@ function Login() {
             );
             storeCollector();
 
-            console.log(u);
             setUser(u);
 
             let path;

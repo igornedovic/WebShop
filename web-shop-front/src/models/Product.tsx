@@ -7,20 +7,20 @@ export class Product {
   name: string;
   price: number;
   characteristics: Characteristics[] = new Array(300);
-  manufacturer: Manufacturer;
-  productType: ProductType;
+  manufacturerId: number;
+  productTypeId: number;
 
   constructor(
     name: string,
     price: number,
     characteristics: Characteristics[],
-    manufacturer: Manufacturer,
-    productType: ProductType
+    manufacturer: number,
+    productType: number
   ) {
     this.name = name;
     this.price = price;
     this.characteristics = characteristics;
-    this.manufacturer = manufacturer;
-    this.productType = productType;
+    this.manufacturerId = manufacturer;
+    this.productTypeId = productType;
   }
 }

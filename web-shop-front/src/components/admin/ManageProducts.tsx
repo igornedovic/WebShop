@@ -134,17 +134,14 @@ function ManageProducts() {
       price !== null &&
       price !== ""
     ) {
-      let m: Manufacturer | undefined = manufacturers.find(
-        (x) => x.id === manufacturer
+      let product: Product = new Product(
+        name,
+        price,
+        characteristics,
+        manufacturer,
+        productType
       );
-      let pt: ProductType | undefined = productTypes.find(
-        (x) => x.id === productType
-      );
-
-      if (m !== undefined && pt !== undefined) {
-        let product: Product = new Product(name, price, characteristics, m, pt);
-        OnAddProduct(product);
-      }
+      OnAddProduct(product);
 
       //   if (props.productToEdit === null) OnAddProduct(product);
       //   else {
@@ -158,6 +155,7 @@ function ManageProducts() {
   const OnAddProduct = async (product: Product) => {
     try {
       const res = await AddProduct(product);
+      console.log(res);
       if (res.error) {
         handleClickAlertError();
       } else {

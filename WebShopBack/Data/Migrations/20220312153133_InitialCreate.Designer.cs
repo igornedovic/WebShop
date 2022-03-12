@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220308161400_InitialCreate")]
+    [Migration("20220312153133_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,29 +20,6 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Data.Models.Characteristic", b =>
-                {
-                    b.Property<int>("ID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Characteristics");
-                });
 
             modelBuilder.Entity("Data.Models.Manufacturer", b =>
                 {
@@ -208,17 +185,6 @@ namespace Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Data.Models.Characteristic", b =>
-                {
-                    b.HasOne("Data.Models.Product", "Product")
-                        .WithMany("Characteristics")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Data.Models.Order", b =>
                 {
                     b.HasOne("Data.Models.User", "User")
@@ -255,6 +221,36 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.OwnsMany("Data.Models.Characteristic", "Characteristics", b1 =>
+                        {
+                            b1.Property<int>("ProductId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("ID")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("ProductId", "ID");
+
+                            b1.ToTable("Characteristics");
+
+                            b1.WithOwner("Product")
+                                .HasForeignKey("ProductId");
+
+                            b1.Navigation("Product");
+                        });
+
+                    b.Navigation("Characteristics");
+
                     b.Navigation("Manufacturer");
 
                     b.Navigation("ProductType");
@@ -263,11 +259,6 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.Order", b =>
                 {
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("Data.Models.Product", b =>
-                {
-                    b.Navigation("Characteristics");
                 });
 #pragma warning restore 612, 618
         }

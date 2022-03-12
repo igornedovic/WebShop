@@ -111,14 +111,15 @@ namespace Data.Migrations
                 name: "Characteristics",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Characteristics", x => new { x.ID, x.ProductId });
+                    table.PrimaryKey("PK_Characteristics", x => new { x.ProductId, x.ID });
                     table.ForeignKey(
                         name: "FK_Characteristics_Products_ProductId",
                         column: x => x.ProductId,
@@ -154,11 +155,6 @@ namespace Data.Migrations
                         principalColumn: "ID",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Characteristics_ProductId",
-                table: "Characteristics",
-                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderID",

@@ -23,14 +23,16 @@ namespace Data
         public DbSet<Manufacturer> Manufacturers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {      
+        {
             // optionsBuilder.LogTo(Console.WriteLine);
             // optionsBuilder.EnableSensitiveDataLogging(true);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Characteristic>().HasKey(ch => new { ch.ID, ch.ProductId });
-            modelBuilder.Entity<Product>().HasMany(p => p.Characteristics).WithOne(ch => ch.Product);
+            modelBuilder.Entity<Product>().OwnsMany(p => p.Characteristics, ch =>
+            {
+                ch.WithOwner(ch => ch.Product);
+            });
         }
 
     }
