@@ -38,9 +38,24 @@ namespace Service
             }
         }
 
-        public Task<bool> DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var product = await _context.Products.SingleOrDefaultAsync(p => p.ID == productId);
+
+                if (product == null) return false;
+
+                _context.Products.Remove(product);
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public Task<List<Characteristic>> GetAllCharacteristics(int productId)
@@ -48,9 +63,20 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public Task<List<Product>> GetAllProduct()
+        public async Task<List<Product>> GetAllProducts()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Products.Include(m => m.Manufacturer)
+                                        .Include(pt => pt.ProductType)
+                                        .Include(ch => ch.Characteristics)
+                                        .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public Task<Product> GetProduct(int productId)

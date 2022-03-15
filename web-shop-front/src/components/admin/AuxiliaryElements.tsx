@@ -6,16 +6,21 @@ import { useStylesAuxiliary } from "../../styles/AuxiliaryElementsStyle";
 import ManageManufacturers from "./AuxiliaryElements/ManageManufacturers";
 import ManageProductType from "./AuxiliaryElements/ManageProductType";
 
-function AuxiliaryElements() {
+interface Props {
+  appendManufacturers: (m: Manufacturer) => void;
+  appendProductTypes: (pt: ProductType) => void;
+}
+
+function AuxiliaryElements(props: Props) {
   const classes = useStylesAuxiliary();
   return (
     <Grid className={classes.root}>
       <Grid item xs={5}>
-        <ManageManufacturers />
+        <ManageManufacturers appendManufacturers={props.appendManufacturers} />
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={5}>
-        <ManageProductType />
+        <ManageProductType appendProductTypes={props.appendProductTypes} />
       </Grid>
     </Grid>
   );

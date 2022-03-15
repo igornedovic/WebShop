@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Manufacturer } from "../../../models/Manufacturer";
 import {
   Grid,
@@ -19,7 +19,11 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-function ManageManufacturers() {
+interface Props {
+  appendManufacturers: (m: Manufacturer) => void;
+}
+
+function ManageManufacturers(props: Props) {
   const classes = useStylesManageManufacturers();
 
   const [name, setName] = useState<string | null>(null);
@@ -73,6 +77,7 @@ function ManageManufacturers() {
       } else {
         handleClickAlert();
         handleCancel();
+        props.appendManufacturers(man);
       }
     } catch (e) {
       console.log("error during adding manufacturer");

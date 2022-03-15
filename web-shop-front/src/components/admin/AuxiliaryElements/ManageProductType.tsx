@@ -18,7 +18,11 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-function ManageProductType() {
+interface Props {
+  appendProductTypes: (pt: ProductType) => void;
+}
+
+function ManageProductType(props: Props) {
   const classes = useStylesManageManufacturers();
 
   const [openAlert, setOpenAlert] = useState<boolean>(false);
@@ -69,6 +73,7 @@ function ManageProductType() {
       } else {
         handleClickAlert();
         handleCancel();
+        props.appendProductTypes(type);
       }
     } catch (e) {
       console.log("error while adding manufacturer");

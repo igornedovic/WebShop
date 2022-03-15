@@ -8,7 +8,7 @@ namespace Data.Interfaces
 {
     public interface IProductService
     {
-        Task<List<Product>> GetAllProduct();
+        Task<List<Product>> GetAllProducts();
         Task<Product> GetProduct(int productId);
         Task<bool> DeleteProduct(int productId);
         Task<List<Characteristic>> GetAllCharacteristics(int productId);

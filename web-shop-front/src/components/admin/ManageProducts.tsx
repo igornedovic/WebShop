@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  MutableRefObject,
+} from "react";
 import {
   Container,
   TextField,
@@ -29,6 +35,7 @@ import { ManufacturerContext } from "../../App";
 import { ProductTypeContext } from "../../App";
 import ManageCharacteristics from "./ManageProducts/ManageCharacteristics";
 import { AddProduct } from "../../services/Api";
+import { GetAllManufacturers, GetAllProductTypes } from "../../services/Api";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -56,8 +63,12 @@ const StyledTableRow = withStyles((theme: Theme) =>
 )(TableRow);
 
 function ManageProducts() {
-  const manufacturers: Manufacturer[] = useContext(ManufacturerContext);
-  const productTypes: ProductType[] = useContext(ProductTypeContext);
+  let manufacturers: MutableRefObject<Manufacturer[]> = useRef(
+    useContext(ManufacturerContext)
+  );
+  let productTypes: MutableRefObject<ProductType[]> = useRef(
+    useContext(ProductTypeContext)
+  );
 
   const classes = useStylesAdmin();
   const [productType, setProductType] = useState<number>(1);
@@ -181,6 +192,26 @@ function ManageProducts() {
   //   }, 500);
   // };
 
+  const getManufacturers = async () => {
+    const newManufacturers: Manufacturer[] = await GetAllManufacturers();
+    manufacturers.current = newManufacturers;
+  };
+
+  const getProductTypes = async () => {
+    const newProductTypes: ProductType[] = await GetAllProductTypes();
+    productTypes.current = newProductTypes;
+  };
+
+  useEffect(() => {
+    getManufacturers();
+    console.log("Manufacturers");
+  }, []);
+
+  useEffect(() => {
+    getProductTypes();
+    console.log("Product Types");
+  }, [productTypes.current]);
+
   return (
     <Container className={classes.root}>
       <Grid container className={classes.mainGridContainer}>
@@ -199,7 +230,7 @@ function ManageProducts() {
                 variant="outlined"
                 style={{ width: "15vw" }}
               >
-                {productTypes?.map((option: ProductType) => (
+                {productTypes?.current?.map((option: ProductType) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>
@@ -221,7 +252,7 @@ function ManageProducts() {
                 variant="outlined"
                 style={{ width: "15vw" }}
               >
-                {manufacturers?.map((option: Manufacturer) => (
+                {manufacturers?.current?.map((option: Manufacturer) => (
                   <MenuItem key={option.id} value={option.id}>
                     {option.name}
                   </MenuItem>

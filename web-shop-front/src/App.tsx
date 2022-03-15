@@ -26,6 +26,14 @@ function App() {
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
 
+  const appendManufacturers = (m: Manufacturer) => {
+    setManufacturers([...manufacturers, m]);
+  };
+
+  const appendProductTypes = (pt: ProductType) => {
+    setProductTypes([...productTypes, pt]);
+  };
+
   const getData = async () => {
     const manufacturers: Manufacturer[] = await GetAllManufacturers();
     const productTypes: ProductType[] = await GetAllProductTypes();
@@ -47,8 +55,24 @@ function App() {
             <Route path="register" element={<CreateAccount />} />
             <Route path="home" element={<Home />}>
               <Route path="admin" element={<MainAdmin />}>
-                <Route index element={<AuxiliaryElements />} />
-                <Route path="auxiliary" element={<AuxiliaryElements />} />
+                <Route
+                  index
+                  element={
+                    <AuxiliaryElements
+                      appendManufacturers={appendManufacturers}
+                      appendProductTypes={appendProductTypes}
+                    />
+                  }
+                />
+                <Route
+                  path="auxiliary"
+                  element={
+                    <AuxiliaryElements
+                      appendManufacturers={appendManufacturers}
+                      appendProductTypes={appendProductTypes}
+                    />
+                  }
+                />
                 <Route path="manageProducts" element={<ManageProducts />} />
                 <Route path="viewProducts" element={<ViewProducts />} />
                 <Route path="manageOrders" element={<ManageOrders />} />

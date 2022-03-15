@@ -16,7 +16,7 @@ namespace API.Controllers
         public ProductController(IProductService productService)
         {
             _productService = productService;
-            
+
         }
 
         // POST: api/product
@@ -25,6 +25,27 @@ namespace API.Controllers
         {
             if (await _productService.AddProduct(product)) return Ok(product);
             return BadRequest();
+        }
+
+        // GET: api/product
+        [HttpGet]
+        public async Task<ActionResult<List<Product>>> GetAllProducts()
+        {
+            var products = await _productService.GetAllProducts();
+
+            if (products == null) return NotFound();
+
+            if (products.Count == 0) return NoContent();
+
+            return Ok(products);
+        }
+
+        // DELETE: api/product/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProduct(int id)
+        {
+            if (await _productService.DeleteProduct(id)) return Ok();
+            return NotFound();
         }
     }
 }

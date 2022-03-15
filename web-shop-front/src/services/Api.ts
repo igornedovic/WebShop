@@ -59,3 +59,18 @@ export async function AddProduct(product: Product) {
   });
   return await response.json();
 }
+
+export async function GetAllProducts(): Promise<Product[]> {
+  const res = await fetch(baseUrl + "/product");
+  return await res.json();
+}
+
+export async function DeleteProduct(id: number) {
+  const res = await fetch(baseUrl + `/product/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return res;
+}
