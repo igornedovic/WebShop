@@ -65,6 +65,17 @@ export async function GetAllProducts(): Promise<Product[]> {
   return await res.json();
 }
 
+export async function UpdateProduct(product: Product) {
+  const res = await fetch(baseUrl + `/product/${product?.id}`, {
+    method: "PUT",
+    body: JSON.stringify(product),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return await res.json();
+}
+
 export async function DeleteProduct(id: number) {
   const res = await fetch(baseUrl + `/product/${id}`, {
     method: "DELETE",

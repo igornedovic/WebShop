@@ -40,6 +40,14 @@ namespace API.Controllers
             return Ok(products);
         }
 
+        // PUT: api/product/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateProduct(int id, [FromBody] Product product)
+        {
+            if (await _productService.UpdateProduct(id, product)) return Ok(product);
+            return BadRequest();
+        }
+
         // DELETE: api/product/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteProduct(int id)

@@ -16,6 +16,7 @@ import { Manufacturer } from "./models/Manufacturer";
 import { ProductType } from "./models/ProductType";
 import { GetAllManufacturers } from "./services/Api";
 import { GetAllProductTypes } from "./services/Api";
+import { Product } from "./models/Product";
 
 export const ManufacturerContext = createContext<Manufacturer[]>([]);
 export const ProductTypeContext = createContext<ProductType[]>([]);
@@ -25,6 +26,7 @@ function App() {
 
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
+  const [productToEdit, setProductToEdit] = useState<Product | null>(null);
 
   const appendManufacturers = (m: Manufacturer) => {
     setManufacturers([...manufacturers, m]);
@@ -32,6 +34,10 @@ function App() {
 
   const appendProductTypes = (pt: ProductType) => {
     setProductTypes([...productTypes, pt]);
+  };
+
+  const cancelProductToEdit = () => {
+    setProductToEdit(null);
   };
 
   const getData = async () => {
@@ -73,8 +79,19 @@ function App() {
                     />
                   }
                 />
-                <Route path="manageProducts" element={<ManageProducts />} />
-                <Route path="viewProducts" element={<ViewProducts />} />
+                <Route
+                  path="manageProducts"
+                  element={
+                    <ManageProducts
+                      productToEdit={productToEdit}
+                      cancelProductToEdit={cancelProductToEdit}
+                    />
+                  }
+                />
+                <Route
+                  path="viewProducts"
+                  element={<ViewProducts onEditProduct={setProductToEdit} />}
+                />
                 <Route path="manageOrders" element={<ManageOrders />} />
               </Route>
               <Route path="user" element={<MainUser />} />

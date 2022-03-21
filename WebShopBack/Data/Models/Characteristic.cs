@@ -16,5 +16,20 @@ namespace Data.Models
         public string Name { get; set; }
         [Required]
         public string Value { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Characteristic ch)
+            {
+                return (ch.Name == this.Name && ch.Value == this.Value);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 }

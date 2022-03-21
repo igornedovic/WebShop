@@ -11,7 +11,6 @@ namespace Data.Interfaces
         Task<List<Product>> GetAllProducts();
         Task<Product> GetProduct(int productId);
         Task<bool> DeleteProduct(int productId);
-        Task<List<Characteristic>> GetAllCharacteristics(int productId);
         Task<bool> AddProduct(Product product);
         Task<bool> UpdateProduct(int productId, Product product);
     }

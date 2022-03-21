@@ -51,7 +51,7 @@ interface Props {
   onEditProduct: (product: Product) => any;
 }
 
-function ViewProducts() {
+function ViewProducts(props: Props) {
   const classes = useStylesViewProducts();
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -112,8 +112,16 @@ function ViewProducts() {
   };
 
   const handleEditProduct = (productID: number | null) => {
-    // let p: any = products.find((pr) => pr.id === productID);
-    // props.onEditProduct(p);
+    let p;
+    if (productID !== null) {
+      p = products.find((pr) => pr.id === productID);
+    }
+
+    if (p !== undefined)
+    {
+      console.log(p);
+      props.onEditProduct(p);
+    }
   };
 
   const componentRef: any = useRef();
@@ -364,13 +372,13 @@ function ViewProducts() {
                   <StyledTableCell align="right">
                     {row?.productType?.name}
                   </StyledTableCell>
-                  <StyledTableCell align="right">{row.price}</StyledTableCell>
+                  <StyledTableCell align="right">{row?.price}</StyledTableCell>
 
                   <StyledTableCell align="right">
                     <IconButton>
                       <InfoIcon
                         onClick={() => {
-                          setProduct(Number(row.id));
+                          setProduct(Number(row?.id));
                           handleClickOpen();
                         }}
                       />
@@ -387,7 +395,7 @@ function ViewProducts() {
                       onClick={() => handleEditProduct(row?.id)}
                       startIcon={<EditIcon color="inherit" fontSize="large" />}
                       component={Link}
-                      to="/proizvod"
+                      to="/home/admin/manageProducts"
                     />
                   </StyledTableCell>
                 </StyledTableRow>

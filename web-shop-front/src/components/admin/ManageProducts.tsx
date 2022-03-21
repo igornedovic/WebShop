@@ -34,7 +34,7 @@ import { Product } from "../../models/Product";
 import { ManufacturerContext } from "../../App";
 import { ProductTypeContext } from "../../App";
 import ManageCharacteristics from "./ManageProducts/ManageCharacteristics";
-import { AddProduct } from "../../services/Api";
+import { AddProduct, UpdateProduct } from "../../services/Api";
 import { GetAllManufacturers, GetAllProductTypes } from "../../services/Api";
 
 function Alert(props: AlertProps) {
@@ -62,7 +62,12 @@ const StyledTableRow = withStyles((theme: Theme) =>
   })
 )(TableRow);
 
-function ManageProducts() {
+interface Props {
+  productToEdit: Product | null;
+  cancelProductToEdit: () => void;
+}
+
+function ManageProducts(props: Props) {
   let manufacturers: MutableRefObject<Manufacturer[]> = useRef(
     useContext(ManufacturerContext)
   );
@@ -107,6 +112,10 @@ function ManageProducts() {
     setProductType(1);
     setManufacturer(1);
     setCharacteristics([]);
+
+    if (props.productToEdit !== null) {
+      props.cancelProductToEdit();
+    }
   };
 
   const handleClickAlert = () => {
@@ -152,14 +161,12 @@ function ManageProducts() {
         manufacturer,
         productType
       );
-      OnAddProduct(product);
 
-      //   if (props.productToEdit === null) OnAddProduct(product);
-      //   else {
-      //     product.id = props.productToEdit.id;
-      //     OnUpdateProduct(product);
-      //   }
-      // }
+      if (props.productToEdit === null) OnAddProduct(product);
+      else {
+        product.id = props.productToEdit.id;
+        OnUpdateProduct(product);
+      }
     }
   };
 
@@ -179,18 +186,21 @@ function ManageProducts() {
     }
   };
 
-  // const OnUpdateProduct = (product: Product) => {
-  //   handleClickAlert();
-  //   setTimeout(() => {
-  //     try {
-  //       UpdateProduct(product);
-  //       handleClear();
-  //     } catch {
-  //       console.log("error in updating product");
-  //       handleClickAlertError();
-  //     }
-  //   }, 500);
-  // };
+  const OnUpdateProduct = async (product: Product) => {
+    try {
+      const res = await UpdateProduct(product);
+      console.log(res);
+      if (res.error) {
+        handleClickAlertError();
+      } else {
+        handleClickAlert();
+        handleClear();
+      }
+    } catch {
+      console.log("error in updating product");
+      handleClickAlertError();
+    }
+  };
 
   const getManufacturers = async () => {
     const newManufacturers: Manufacturer[] = await GetAllManufacturers();
@@ -204,13 +214,21 @@ function ManageProducts() {
 
   useEffect(() => {
     getManufacturers();
-    console.log("Manufacturers");
   }, []);
 
   useEffect(() => {
     getProductTypes();
-    console.log("Product Types");
   }, [productTypes.current]);
+
+  useEffect(() => {
+    if (props.productToEdit !== null) {
+      setProductType(props.productToEdit.productTypeId);
+      setManufacturer(props.productToEdit.manufacturerId);
+      setName(props.productToEdit.name);
+      setPrice(props.productToEdit.price);
+      setCharacteristics(props.productToEdit.characteristics);
+    }
+  }, []);
 
   return (
     <Container className={classes.root}>
@@ -356,7 +374,7 @@ function ManageProducts() {
               onClick={handleAddProduct}
               style={{ backgroundColor: "#222431", color: "white" }}
             >
-              Sacuvaj proizvod
+              {props.productToEdit ? "Izmeni proizvod" : "Sacuvaj proizvod"}
             </Button>
           </Grid>
         </Grid>
@@ -367,7 +385,9 @@ function ManageProducts() {
         onClose={handleCloseAlert}
       >
         <Alert onClose={handleCloseAlert} severity="success">
-          Uspesno kreiran proizvod!
+          {props.productToEdit
+            ? "Uspesno izmenjen proizvod!"
+            : "Uspesno kreiran proizvod!"}
         </Alert>
       </Snackbar>
       <Snackbar

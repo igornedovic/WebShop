@@ -51,16 +51,11 @@ namespace Service
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 return false;
             }
-        }
-
-        public Task<List<Characteristic>> GetAllCharacteristics(int productId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<List<Product>> GetAllProducts()
@@ -84,9 +79,44 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateProduct(int productId, Product product)
+        public async Task<bool> UpdateProduct(int productId, Product product)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var productToEdit = await _context.Products.SingleOrDefaultAsync(p => p.ID == productId);
+
+                if (productToEdit == null) return false;
+
+                foreach (Characteristic ch in productToEdit.Characteristics)
+                {
+                    if (!product.Characteristics.Contains(ch))
+                    {
+                        _context.Entry(ch).State = EntityState.Deleted;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                _context.Entry(productToEdit).State = EntityState.Detached;
+
+                _context.Products.Update(new Product
+                {
+                    ID = productId,
+                    Name = product.Name,
+                    Price = product.Price,
+                    ManufacturerId = product.ManufacturerId,
+                    ProductTypeId = product.ProductTypeId,
+                    Characteristics = product.Characteristics
+                });
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }
