@@ -34,6 +34,7 @@ import { StyledTableRow } from "../../styles/ViewProductsStyle";
 import { Product } from "../../models/Product";
 import { ProductTypeContext, ManufacturerContext } from "../../App";
 import { Link } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 import { GetAllProducts, DeleteProduct } from "../../services/Api";
 
 function Alert(props: AlertProps) {
@@ -117,18 +118,16 @@ function ViewProducts(props: Props) {
       p = products.find((pr) => pr.id === productID);
     }
 
-    if (p !== undefined)
-    {
+    if (p !== undefined) {
       console.log(p);
       props.onEditProduct(p);
     }
   };
 
   const componentRef: any = useRef();
-  const handlePrint = function () {};
-  // const handlePrint = useReactToPrint({
-  //   content: () => componentRef.current,
-  // });
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const handleClickAlert = () => {
     setOpenAlert(true);
@@ -168,7 +167,7 @@ function ViewProducts(props: Props) {
   useEffect(() => {
     const newFilteredProducts = products?.filter((p: Product) => {
       if (type === null && man === null && search !== "")
-        return p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase());
+        return p.name.toLocaleLowerCase() === search.toLocaleLowerCase();
       if (
         search === "" &&
         type !== null &&
@@ -196,7 +195,7 @@ function ViewProducts(props: Props) {
         return (
           p.productType.name.toLocaleLowerCase() ===
             type?.toLocaleLowerCase() &&
-          p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+          p.name.toLocaleLowerCase() === search.toLocaleLowerCase()
         );
       }
       if (
@@ -208,7 +207,7 @@ function ViewProducts(props: Props) {
         return (
           p.manufacturer.name.toLocaleLowerCase() ===
             man?.toLocaleLowerCase() &&
-          p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+          p.name.toLocaleLowerCase() === search.toLocaleLowerCase()
         );
       }
       if (
@@ -236,15 +235,16 @@ function ViewProducts(props: Props) {
             man?.toLocaleLowerCase() &&
           p.productType.name.toLocaleLowerCase() ===
             type?.toLocaleLowerCase() &&
-          p.name.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+          p.name.toLocaleLowerCase() === search.toLocaleLowerCase()
         );
       }
       return products;
     });
 
     if (newFilteredProducts.length > 0) {
-      console.log(newFilteredProducts);
       setFilteredProducts(newFilteredProducts);
+    } else {
+      setFilteredProducts([]);
     }
   }, [search, type, man]);
 
@@ -345,11 +345,7 @@ function ViewProducts(props: Props) {
           </Grid>
         </Grid>
         <TableContainer component={Paper} className={classes.paper}>
-          <Table
-            className={classes.table}
-            aria-label="customized table"
-            ref={componentRef}
-          >
+          <Table className={classes.table} ref={componentRef}>
             <TableHead>
               <TableRow>
                 <StyledTableCell>Naziv proizvoda</StyledTableCell>
@@ -360,47 +356,57 @@ function ViewProducts(props: Props) {
                 <StyledTableCell align="right">Obrisi/Izmeni</StyledTableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {filteredProducts?.map((row: Product) => (
-                <StyledTableRow key={row.name}>
-                  <StyledTableCell component="th" scope="row">
-                    {row.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {row?.manufacturer?.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    {row?.productType?.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{row?.price}</StyledTableCell>
+            {filteredProducts?.length > 0 ? (
+              <TableBody>
+                {filteredProducts?.map((row: Product) => (
+                  <StyledTableRow key={row.name}>
+                    <StyledTableCell component="th" scope="row">
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row?.manufacturer?.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row?.productType?.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row?.price}
+                    </StyledTableCell>
 
-                  <StyledTableCell align="right">
-                    <IconButton>
-                      <InfoIcon
-                        onClick={() => {
-                          setProduct(Number(row?.id));
-                          handleClickOpen();
-                        }}
+                    <StyledTableCell align="right">
+                      <IconButton>
+                        <InfoIcon
+                          onClick={() => {
+                            setProduct(Number(row?.id));
+                            handleClickOpen();
+                          }}
+                        />
+                      </IconButton>
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      <Button
+                        onClick={() => handleDelete(row?.id)}
+                        startIcon={
+                          <DeleteIcon color="inherit" fontSize="large" />
+                        }
                       />
-                    </IconButton>
-                  </StyledTableCell>
-                  <StyledTableCell align="right">
-                    <Button
-                      onClick={() => handleDelete(row?.id)}
-                      startIcon={
-                        <DeleteIcon color="inherit" fontSize="large" />
-                      }
-                    />
-                    <Button
-                      onClick={() => handleEditProduct(row?.id)}
-                      startIcon={<EditIcon color="inherit" fontSize="large" />}
-                      component={Link}
-                      to="/home/admin/manageProducts"
-                    />
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
+                      <Button
+                        onClick={() => handleEditProduct(row?.id)}
+                        startIcon={
+                          <EditIcon color="inherit" fontSize="large" />
+                        }
+                        component={Link}
+                        to="/home/admin/manageProducts"
+                      />
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <h3 style={{ marginLeft: "15px" }}>
+                Ne postoje proizvodi po zadatom kriterijumu!
+              </h3>
+            )}
           </Table>
         </TableContainer>
       </Grid>
