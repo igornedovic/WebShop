@@ -1,18 +1,22 @@
 import React, { createContext, useState } from "react";
-import { Grid } from "@mui/material";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Grid } from "@material-ui/core";
+import { Outlet } from "react-router-dom";
 import { useStyles } from "../../styles/Style";
 import { User } from "../../models/User";
+import NavigationUser from "./NavigationUser";
 
 interface Props {
   user: User;
 }
 
 function MainUser() {
+  const classes = useStyles();
+
   return (
-    <div>
-      <h1>This is MainUser</h1>
-    </div>
+    <>
+        <NavigationUser user={null} orders={null} />
+        <Outlet />
+    </>
   );
 }
 

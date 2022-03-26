@@ -17,6 +17,12 @@ import { ProductType } from "./models/ProductType";
 import { GetAllManufacturers } from "./services/Api";
 import { GetAllProductTypes } from "./services/Api";
 import { Product } from "./models/Product";
+import { User } from "./models/User";
+import Profile from "./components/user/Profile";
+import Catalog from "./components/user/Catalog";
+import MyCart from "./components/user/MyCart";
+import MyOrders from "./components/user/MyOrders";
+import ContactAdmin from "./components/user/ContactAdmin";
 
 export const ManufacturerContext = createContext<Manufacturer[]>([]);
 export const ProductTypeContext = createContext<ProductType[]>([]);
@@ -27,6 +33,7 @@ function App() {
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const appendManufacturers = (m: Manufacturer) => {
     setManufacturers([...manufacturers, m]);
@@ -39,6 +46,10 @@ function App() {
   const cancelProductToEdit = () => {
     setProductToEdit(null);
   };
+
+  const storeOnlineUser = (u: User) => {
+    setUser(u);
+  }
 
   const getData = async () => {
     const manufacturers: Manufacturer[] = await GetAllManufacturers();
@@ -57,7 +68,7 @@ function App() {
       <ProductTypeContext.Provider value={productTypes}>
         <ManufacturerContext.Provider value={manufacturers}>
           <Routes>
-            <Route path="login" element={<Login />} />
+            <Route path="login" element={<Login storeOnlineUser={storeOnlineUser}/>} />
             <Route path="register" element={<CreateAccount />} />
             <Route path="home" element={<Home />}>
               <Route path="admin" element={<MainAdmin />}>
@@ -94,7 +105,14 @@ function App() {
                 />
                 <Route path="manageOrders" element={<ManageOrders />} />
               </Route>
-              <Route path="user" element={<MainUser />} />
+              <Route path="user" element={<MainUser />}>
+                <Route index element={<Profile user={user} />} />
+                <Route path="profile" element={<Profile user={user} />} />
+                <Route path="catalog" element={<Catalog />} />
+                <Route path="myCart" element={<MyCart />} />
+                <Route path="myOrders" element={<MyOrders />} />
+                <Route path="contact" element={<ContactAdmin />} />
+              </Route>
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>

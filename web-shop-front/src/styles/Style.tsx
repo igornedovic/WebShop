@@ -1,9 +1,9 @@
-import { makeStyles, createStyles } from '@material-ui/core';
+import { makeStyles, createStyles } from "@material-ui/core";
 
 export const useStyles = makeStyles(() =>
   createStyles({
     root: {
-      background: "#222431",
+      background: "#222431!important",
       height: "100%",
       backgroundImage: `url(
           ${"https://www.transparenttextures.com/patterns/asfalt-dark.png"}
@@ -22,7 +22,7 @@ export const useStyles = makeStyles(() =>
       color: "#222431",
       maxHeight: "100vh",
     },
-    sidenav: {
+    paper: {
       position: "relative",
       maxWidth: "12vw",
       height: "90vh",
@@ -59,12 +59,12 @@ export const useStyles = makeStyles(() =>
       alignContent: "center",
     },
     loginElements: {
-      marginBottom: "2%",
+      marginBottom: "3%!important",
       borderRadius: "10px",
     },
     loginButton: {
       borderRadius: "5px",
-      margin: "3px",
+      margin: "5px!important",
       backgroundColor: "#4EB8CE",
       color: "#222431",
     },

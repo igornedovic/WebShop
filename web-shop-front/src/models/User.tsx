@@ -6,7 +6,7 @@ export class User {
   username: string;
   password: string;
   isAdmin: boolean;
-  image: string;
+  image: string | undefined;
 
   constructor(
     firstName: string,
@@ -16,7 +16,7 @@ export class User {
     username: string,
     password: string,
     isAdmin: boolean,
-    image: string
+    image?: string
   ) {
     this.firstName = firstName;
     this.lastName = lastName;

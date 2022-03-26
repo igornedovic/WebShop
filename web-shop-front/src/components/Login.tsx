@@ -6,7 +6,11 @@ import { RequestUser } from "../models/RequestUser";
 import { useStyles } from "../styles/Style";
 import Alerts from "./Alerts";
 
-function Login() {
+interface Props {
+  storeOnlineUser: (u: User) => void;
+}
+
+function Login(props: Props) {
   const classes = useStyles();
   const [username, setUsername] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
@@ -36,10 +40,10 @@ function Login() {
       }).then((response) => {
         if (response.status !== 401) {
           response.json().then((result) => {
-            console.warn("result", result);
+            console.log(result);
             let u: User = new User(
-              result.name,
-              result.surname,
+              result.firstName,
+              result.lastName,
               result.phone,
               result.email,
               result.username,
@@ -58,6 +62,8 @@ function Login() {
             storeCollector();
 
             setUser(u);
+
+            props.storeOnlineUser(u);
 
             let path;
             if (u?.isAdmin) {
@@ -114,6 +120,7 @@ function Login() {
           <Button
             variant="contained"
             className={classes.loginButton}
+            style={{ backgroundColor: "#4EB8CE", color: "#222431" }}
             onClick={login}
           >
             Prijavi se

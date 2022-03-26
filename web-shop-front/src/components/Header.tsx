@@ -11,7 +11,7 @@ function Header() {
   };
   return (
     <AppBar position="static" className={classes.root}>
-      <Toolbar style={{ marginLeft: "auto" }}>
+      <Toolbar style={{ marginLeft: "auto"}}>
         <label>Odjavi se</label>
         <IconButton
           edge="end"
