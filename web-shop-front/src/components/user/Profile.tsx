@@ -10,7 +10,7 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import SaveIcon from "@material-ui/icons/Save";
 import React, { useEffect, useState } from "react";
 import { User } from "../../models/User";
-// import { UpdateUser } from '../../service/api';
+import { UpdateUser } from "../../services/Api";
 import { useStylesProfile } from "../../styles/UserStyles";
 import Alerts from "../Alerts";
 import { validMail } from "../helpers/Functions";
@@ -126,6 +126,7 @@ export default function Profile(props: Props) {
     if (
       valid &&
       props.user !== null &&
+      props.user.id !== null &&
       firstName !== null &&
       lastName !== null &&
       phone !== null &&
@@ -153,32 +154,32 @@ export default function Profile(props: Props) {
         username,
         password,
         props.user.isAdmin,
-        props.user.image
+        props.user.image,
+        props.user.id
       );
       updateUser(newUser);
     }
   };
 
   const updateUser = async (user: User) => {
-    // try {
-    //   const res = await UpdateUser(user);
-    //   if (res.error) {
-    //     handleClickAlertError();
-    //   } else {
-    //     handleClickAlert();
-    //     setName(name);
-    //     setSurname(surname);
-    //     setEmail(email);
-    //     setPhone(phone);
-    //     setUsername(username);
-    //     setPassword(password);
-    //     setPas(password);
-    //     setImage(image);
-    //     setDisable(true);
-    //   }
-    // } catch (error) {
-    //   setServerAlert(true);
-    // }
+    try {
+      const res = await UpdateUser(user);
+      if (res.error) {
+        handleClickAlertError();
+      } else {
+        handleClickAlert();
+        setFirstName(firstName);
+        setLastName(lastName);
+        setEmail(email);
+        setPhone(phone);
+        setUsername(username);
+        setPassword(password);
+        setPas(password);
+        setDisable(true);
+      }
+    } catch (error) {
+      setServerAlert(true);
+    }
   };
 
   const handleClickAlert = () => {

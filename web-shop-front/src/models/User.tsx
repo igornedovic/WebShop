@@ -1,4 +1,5 @@
 export class User {
+  id: number | null = null;
   firstName: string;
   lastName: string;
   phone: string;
@@ -16,7 +17,8 @@ export class User {
     username: string,
     password: string,
     isAdmin: boolean,
-    image?: string
+    image?: string,
+    id?: number
   ) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -26,5 +28,9 @@ export class User {
     this.password = password;
     this.isAdmin = isAdmin;
     this.image = image;
+
+    if (id) {
+      this.id = id;
+    }
   }
 }

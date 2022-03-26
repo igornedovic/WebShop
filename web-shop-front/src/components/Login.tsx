@@ -49,7 +49,8 @@ function Login(props: Props) {
               result.username,
               result.password,
               result.isAdmin,
-              result.image
+              result.image,
+              result.id
             );
             localStorage.setItem(
               "login",

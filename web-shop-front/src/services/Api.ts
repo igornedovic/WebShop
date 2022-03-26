@@ -85,3 +85,14 @@ export async function DeleteProduct(id: number) {
   });
   return res;
 }
+
+export async function UpdateUser(user: User) {
+  const res = await fetch(baseUrl + `/user/${user?.id}`, {
+    method: "PUT",
+    body: JSON.stringify(user),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return await res.json();
+}

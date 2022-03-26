@@ -8,9 +8,9 @@ namespace Data.Interfaces
 {
     public interface IUserService
     {
-        User GetUser(int userId);
+        Task<User> GetUser(int userId);
         Task<User> Login(string username, string password);
         Task<bool> AddUser(User user);
-        bool UpdateUser(int userId, User user);
+        Task<bool> UpdateUser(int userId, User user);
     }
 }

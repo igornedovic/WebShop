@@ -28,6 +28,7 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
 
+        // POST: api/user/register
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(User user)
         {
@@ -35,6 +36,7 @@ namespace API.Controllers
             return NotFound();
         }
 
+        // POST: api/user/login
         [HttpPost("login")]
         public async Task<ActionResult<AuthenticationResponse>> Login(AuthenticationRequest request)
         {
@@ -45,6 +47,14 @@ namespace API.Controllers
             var tokenString = _tokenService.CreateToken(user);
             AuthenticationResponse response = _tokenService.CreateResponse(tokenString, user);
             return Ok(response);
+        }
+
+        // PUT: api/user/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
+        {
+            if (await _userService.UpdateUser(id, user)) return Ok(user);
+            return BadRequest();
         }
     }
 }

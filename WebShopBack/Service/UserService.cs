@@ -63,11 +63,11 @@ namespace Service
             }
         }
 
-        public User GetUser(int userId)
+        public async Task<User> GetUser(int userId)
         {
             try
             {
-                return _context.Users.Where(u => u.UserId == userId).SingleOrDefault();
+                return await _context.Users.Where(u => u.UserId == userId).SingleOrDefaultAsync();
             }
             catch (Exception)
             {
@@ -75,9 +75,31 @@ namespace Service
             }
         }
 
-        public bool UpdateUser(int userId, User user)
+        public async Task<bool> UpdateUser(int userId, User user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Users.Update(new User
+                {
+                    UserId = userId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Phone = user.Phone,
+                    Email = user.Email,
+                    Username = user.Username,
+                    Password = user.Password,
+                    IsAdmin = user.IsAdmin,
+                    Image = user.Image
+                });
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }
