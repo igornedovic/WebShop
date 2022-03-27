@@ -44,10 +44,10 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface Props {
-  onAddToCart: (item: OrderItem | null) => any;
+  addToCart: (item: OrderItem | null) => void;
 }
 
-function Catalog() {
+function Catalog(props: Props) {
   const classes = useStylesViewProducts();
 
   const [products, setProducts] = useState<Product[]>([]);
@@ -82,13 +82,13 @@ function Catalog() {
   );
 
   const handleAddToCart = () => {
-    // setOpenAddToCart(true);
+    setOpenAddToCart(true);
   };
 
   const handleAddItem = (item: OrderItem | null) => {
-    // if (item !== null) {
-    //   props.onAddToCart(item);
-    // }
+    if (item !== null) {
+      props.addToCart(item);
+    }
   };
 
   const [page, setPage] = React.useState(0);
@@ -369,12 +369,12 @@ function Catalog() {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* <AddToCart
+      <AddToCart
         open={openAddToCart}
         onClose={handleClose}
         product={chosenProductForChart ? chosenProductForChart : null}
         onAddToCart={handleAddItem}
-      /> */}
+      />
     </div>
   );
 }

@@ -18,6 +18,7 @@ import { GetAllManufacturers } from "./services/Api";
 import { GetAllProductTypes } from "./services/Api";
 import { Product } from "./models/Product";
 import { User } from "./models/User";
+import { OrderItem } from "./models/OrderItem";
 import Profile from "./components/user/Profile";
 import Catalog from "./components/user/Catalog";
 import MyCart from "./components/user/MyCart";
@@ -35,6 +36,10 @@ function App() {
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
+  // Customer specific state
+  const [items, setItems] = useState<OrderItem[]>([]);
+
+
   const appendManufacturers = (m: Manufacturer) => {
     setManufacturers([...manufacturers, m]);
   };
@@ -49,6 +54,15 @@ function App() {
 
   const storeOnlineUser = (u: User) => {
     setUser(u);
+  }
+
+  const addToCart = (item: OrderItem | null) => {
+    if (item)
+    {
+      let newItems: OrderItem[] = [...items];
+      newItems.push(item);
+      setItems(newItems);
+    }
   }
 
   const getData = async () => {
@@ -108,7 +122,7 @@ function App() {
               <Route path="user" element={<MainUser />}>
                 <Route index element={<Profile user={user} />} />
                 <Route path="profile" element={<Profile user={user} />} />
-                <Route path="catalog" element={<Catalog />} />
+                <Route path="catalog" element={<Catalog addToCart={addToCart}/>} />
                 <Route path="myCart" element={<MyCart />} />
                 <Route path="myOrders" element={<MyOrders />} />
                 <Route path="contact" element={<ContactAdmin />} />
