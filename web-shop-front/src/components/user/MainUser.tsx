@@ -14,8 +14,8 @@ function MainUser() {
 
   return (
     <>
-        <NavigationUser user={null} orders={null} />
-        <Outlet />
+      <NavigationUser user={null} orders={null} />
+      <Outlet />
     </>
   );
 }
