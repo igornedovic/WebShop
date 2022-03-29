@@ -27,6 +27,7 @@ import { Order } from "../../models/Order";
 import { OrderItem } from "../../models/OrderItem";
 import { User } from "../../models/User";
 import { useStylesMyCart } from "../../styles/MyCartStyle";
+import { AddOrder } from "../../services/Api";
 import Alerts from "../Alerts";
 
 interface Props {
@@ -103,8 +104,8 @@ function MyCart(props: Props) {
           selectedDate!.getDate()
         )
       );
+
       order = new Order(
-        0,
         new Date(),
         deadline,
         sum,
@@ -112,22 +113,34 @@ function MyCart(props: Props) {
         orderItems,
         "Obrada"
       );
-      // onAddOrder(order);
+      onAddOrder(order);
       // handleCancelOrder();
     }
   };
 
-  const onAddOrder = (order: Order) => {
-    // handleClickAlert();
-    // setTimeout(() => {
-    //   const res = AddOrder(order);
-    //   handleClickAlert();
-    //   props.onCreatedOrder(order);
-    //   handleCancelOrder();
-    // }, 1000);
+  const onAddOrder = async (order: Order) => {
+    try {
+      const res = await AddOrder(order);
+      console.log(res);
+      if (res.error.status === "400") {
+        handleClickAlertError();
+      } else {
+        handleClickAlert();
+        props.onCreatedOrder(order);
+        handleCancelOrder();
+      }
+    } catch {
+      console.log("error in adding order");
+      handleClickAlertError();
+    }
   };
+
   const handleClickAlert = () => {
     setOpenAlert(true);
+  };
+
+  const handleClickAlertError = () => {
+    setOpenAlertError(true);
   };
 
   return (

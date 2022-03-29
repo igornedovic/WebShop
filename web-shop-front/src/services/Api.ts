@@ -2,6 +2,7 @@ import { User } from "../models/User";
 import { Manufacturer } from "../models/Manufacturer";
 import { ProductType } from "../models/ProductType";
 import { Product } from "../models/Product";
+import { Order } from "../models/Order";
 
 const baseUrl = "http://localhost:5000/api";
 
@@ -87,9 +88,20 @@ export async function DeleteProduct(id: number) {
 }
 
 export async function UpdateUser(user: User) {
-  const res = await fetch(baseUrl + `/user/${user?.id}`, {
+  const res = await fetch(baseUrl + `/user/${user?.userId}`, {
     method: "PUT",
     body: JSON.stringify(user),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return await res.json();
+}
+
+export async function AddOrder(order: Order) {
+  const res = await fetch(baseUrl + `/order`, {
+    method: "POST",
+    body: JSON.stringify(order),
     headers: {
       "Content-Type": "application/json",
     },

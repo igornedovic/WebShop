@@ -33,6 +33,13 @@ namespace Data
             {
                 ch.WithOwner(ch => ch.Product);
             });
+
+            modelBuilder.Entity<Order>().HasOne(u => u.User).WithMany().HasForeignKey(u => u.UserId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Order>().OwnsMany(o => o.OrderItems, oi =>
+            {
+                oi.WithOwner(oi => oi.Order);
+                oi.HasOne(p => p.Product).WithMany().HasForeignKey(p => p.ProductId).OnDelete(DeleteBehavior.Restrict);
+            });
         }
 
     }

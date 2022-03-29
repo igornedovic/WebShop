@@ -43,7 +43,6 @@ function AddToCart(props: Props) {
         props.product?.price * quantity,
         props.product
       );
-      console.log(item);
       props.onAddToCart(item);
     }
   };

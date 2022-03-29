@@ -1,5 +1,5 @@
 export class User {
-  id: number | null = null;
+  userId: number | null = null;
   firstName: string;
   lastName: string;
   phone: string;
@@ -30,7 +30,7 @@ export class User {
     this.image = image;
 
     if (id) {
-      this.id = id;
+      this.userId = id;
     }
   }
 }

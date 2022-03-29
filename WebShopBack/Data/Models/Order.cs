@@ -9,7 +9,7 @@ namespace Data.Models
     public class Order
     {
         [Key]
-        public int ID { get; set; }
+        public int? ID { get; set; }
         [Required]
         public DateTime DateOfMaking { get; set; }
         [Required]
@@ -17,8 +17,11 @@ namespace Data.Models
         [Required]
         public double SumPrice { get; set; }
         [Required]
+        public int UserId { get; set; }
         public User User { get; set; }
+        [Required]
         public string Status { get; set; }
+        [Required]
         public IEnumerable<OrderItem> OrderItems { get; set; }
     }
 }

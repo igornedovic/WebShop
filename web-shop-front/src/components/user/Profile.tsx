@@ -126,7 +126,7 @@ export default function Profile(props: Props) {
     if (
       valid &&
       props.user !== null &&
-      props.user.id !== null &&
+      props.user.userId !== null &&
       firstName !== null &&
       lastName !== null &&
       phone !== null &&
@@ -155,7 +155,7 @@ export default function Profile(props: Props) {
         password,
         props.user.isAdmin,
         props.user.image,
-        props.user.id
+        props.user.userId
       );
       updateUser(newUser);
     }
