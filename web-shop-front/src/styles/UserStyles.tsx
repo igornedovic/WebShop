@@ -49,12 +49,18 @@ export const useStylesProfile = makeStyles(() =>
       backgroundColor: "#676d92",
       color: "white",
       borderRadius: "3px",
+      "&:hover": {
+        background: "#797d8f",
+      },
     },
     btnFinal: {
       marginTop: "3%",
       backgroundColor: "#676d92",
       color: "white",
       width: "13vw",
+      "&:hover": {
+        background: "#797d8f",
+      },
     },
     btnsFinal: {
       padding: "5%",

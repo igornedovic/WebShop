@@ -18,6 +18,7 @@ import { GetAllManufacturers } from "./services/Api";
 import { GetAllProductTypes } from "./services/Api";
 import { Product } from "./models/Product";
 import { User } from "./models/User";
+import { Order } from "./models/Order";
 import { OrderItem } from "./models/OrderItem";
 import Profile from "./components/user/Profile";
 import Catalog from "./components/user/Catalog";
@@ -38,7 +39,8 @@ function App() {
 
   // Customer specific state
   const [items, setItems] = useState<OrderItem[]>([]);
-
+  const [orderItemsNumber, setOrderItemsNumber] = useState<number>(0);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   const appendManufacturers = (m: Manufacturer) => {
     setManufacturers([...manufacturers, m]);
@@ -54,16 +56,47 @@ function App() {
 
   const storeOnlineUser = (u: User) => {
     setUser(u);
-  }
+  };
 
   const addToCart = (item: OrderItem | null) => {
-    if (item)
-    {
+    if (item) {
       let newItems: OrderItem[] = [...items];
       newItems.push(item);
       setItems(newItems);
     }
+  };
+
+  const increaseOrderItemsNumber = () => {
+    setOrderItemsNumber(orderItemsNumber + 1);
   }
+
+  const cancelOrder = (cancel: boolean) => {
+    if (cancel) setItems([]);
+  };
+
+  const removeOrderItem = (productID: number) => {
+    let orderToRemove: any = items.find((o) => o.product.id === productID);
+    let items2: OrderItem[] = [...items];
+    items2.splice(items2.indexOf(orderToRemove), 1);
+    setItems(items2);
+  };
+  
+  const changeOrderItem = (productID: number | null, quantity: number) => {
+    if (quantity && productID) {
+      let items2: OrderItem[] = [...items];
+      let index = items2.findIndex((x) => x.product.id === productID);
+      items2[index].quantity = quantity;
+      items2[index].orderItemPrice = quantity * items2[index].product.price;
+      setItems(items2);
+      console.log(items);
+    }
+  };
+
+  const addOrder = (order: Order) => {
+    let orders2: any = [...orders];
+    orders2.push(order);
+    setOrders(orders2);
+  };
 
   const getData = async () => {
     const manufacturers: Manufacturer[] = await GetAllManufacturers();
@@ -82,7 +115,10 @@ function App() {
       <ProductTypeContext.Provider value={productTypes}>
         <ManufacturerContext.Provider value={manufacturers}>
           <Routes>
-            <Route path="login" element={<Login storeOnlineUser={storeOnlineUser}/>} />
+            <Route
+              path="login"
+              element={<Login storeOnlineUser={storeOnlineUser} />}
+            />
             <Route path="register" element={<CreateAccount />} />
             <Route path="home" element={<Home />}>
               <Route path="admin" element={<MainAdmin />}>
@@ -122,8 +158,23 @@ function App() {
               <Route path="user" element={<MainUser />}>
                 <Route index element={<Profile user={user} />} />
                 <Route path="profile" element={<Profile user={user} />} />
-                <Route path="catalog" element={<Catalog addToCart={addToCart}/>} />
-                <Route path="myCart" element={<MyCart />} />
+                <Route
+                  path="catalog"
+                  element={<Catalog orderItemsNumber={orderItemsNumber} addToCart={addToCart} increaseOrderItemsNumber={increaseOrderItemsNumber}/>}
+                />
+                <Route
+                  path="myCart"
+                  element={
+                    <MyCart
+                      user={user}
+                      items={items}
+                      onCancelOrder={cancelOrder}
+                      onRemoveOrderItem={removeOrderItem}
+                      onCreatedOrder={addOrder}
+                      onChangeOrderItem={changeOrderItem}
+                    />
+                  }
+                />
                 <Route path="myOrders" element={<MyOrders />} />
                 <Route path="contact" element={<ContactAdmin />} />
               </Route>

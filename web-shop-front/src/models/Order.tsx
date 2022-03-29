@@ -6,7 +6,7 @@ export class Order {
   dateOfMaking: Date;
   deadine: Date;
   sumPrice: number;
-  user: User;
+  user: User | null;
   orderItems: OrderItem[] = new Array(300);
   status: string;
 
@@ -15,7 +15,7 @@ export class Order {
     dateOfMaking: Date,
     deadine: Date,
     sumPrice: number,
-    user: User,
+    user: User | null,
     orderItems: OrderItem[],
     status: string
   ) {

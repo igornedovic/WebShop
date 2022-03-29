@@ -44,7 +44,9 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface Props {
+  orderItemsNumber: number;
   addToCart: (item: OrderItem | null) => void;
+  increaseOrderItemsNumber: () => void;
 }
 
 function Catalog(props: Props) {
@@ -82,6 +84,7 @@ function Catalog(props: Props) {
   );
 
   const handleAddToCart = () => {
+    props.increaseOrderItemsNumber();
     setOpenAddToCart(true);
   };
 
@@ -374,6 +377,7 @@ function Catalog(props: Props) {
         onClose={handleClose}
         product={chosenProductForChart ? chosenProductForChart : null}
         onAddToCart={handleAddItem}
+        orderItemsNumber={props.orderItemsNumber}
       />
     </div>
   );

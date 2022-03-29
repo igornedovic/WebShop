@@ -25,6 +25,7 @@ interface Props {
   onClose: (value: boolean) => void;
   product: Product | null;
   onAddToCart: (item: OrderItem | null) => void;
+  orderItemsNumber: number;
 }
 
 function AddToCart(props: Props) {
@@ -37,11 +38,12 @@ function AddToCart(props: Props) {
   const handleAddItem = () => {
     if (props.product) {
       let item: OrderItem = new OrderItem(
-        0,
+        props.orderItemsNumber,
         quantity,
         props.product?.price * quantity,
         props.product
       );
+      console.log(item);
       props.onAddToCart(item);
     }
   };
