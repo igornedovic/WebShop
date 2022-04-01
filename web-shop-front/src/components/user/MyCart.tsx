@@ -114,7 +114,6 @@ function MyCart(props: Props) {
         "Obrada"
       );
       onAddOrder(order);
-      // handleCancelOrder();
     }
   };
 
@@ -122,7 +121,7 @@ function MyCart(props: Props) {
     try {
       const res = await AddOrder(order);
       console.log(res);
-      if (res.error.status === "400") {
+      if (res?.error?.status === "400") {
         handleClickAlertError();
       } else {
         handleClickAlert();

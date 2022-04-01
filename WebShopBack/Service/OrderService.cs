@@ -23,13 +23,13 @@ namespace Service
             {
                 order.UserId = order.User.UserId;
                 _context.Entry(order.User).State = EntityState.Unchanged;
-                
+
                 foreach (OrderItem item in order.OrderItems)
                 {
                     item.ProductId = item.Product.ID;
                     _context.Entry(item.Product).State = EntityState.Unchanged;
                 }
-                
+
                 _context.Orders.Add(order);
 
                 await _context.SaveChangesAsync();
@@ -47,9 +47,20 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Order>> GetAllOrders()
+        public async Task<IEnumerable<Order>> GetAllOrders()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Orders.Include(u => u.User)
+                                            .Include(oi => oi.OrderItems)
+                                            .ThenInclude(p => p.Product)
+                                            .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public Task<IEnumerable<Order>> GetAllOrdersForUser(int userId)
@@ -62,9 +73,24 @@ namespace Service
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateOrder(int orderId, Order order)
+        public async Task<bool> UpdateOrder(int orderId, Order order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var orderToEdit = await _context.Orders.SingleOrDefaultAsync(o => o.ID == orderId);
+
+                if (orderToEdit == null) return false;
+
+                orderToEdit.Status = order.Status;
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }

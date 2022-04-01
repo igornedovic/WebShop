@@ -25,5 +25,24 @@ namespace API.Controllers
             if (await _orderService.AddOrder(order)) return Ok(order);
             return BadRequest();
         }
+
+        // GET: api/order
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Order>>> GetAllOrders()
+        {
+            var orders = await _orderService.GetAllOrders();
+
+            if (orders == null) return NotFound();
+
+            return Ok(orders);
+        }
+
+        // PUT: api/product/{id}
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateOrder(int id, [FromBody] Order order)
+        {
+            if (await _orderService.UpdateOrder(id, order)) return Ok(order);
+            return BadRequest();
+        }
     }
 }

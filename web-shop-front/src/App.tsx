@@ -16,6 +16,7 @@ import { Manufacturer } from "./models/Manufacturer";
 import { ProductType } from "./models/ProductType";
 import { GetAllManufacturers } from "./services/Api";
 import { GetAllProductTypes } from "./services/Api";
+import { GetAllOrders } from "./services/Api";
 import { Product } from "./models/Product";
 import { User } from "./models/User";
 import { Order } from "./models/Order";
@@ -35,12 +36,13 @@ function App() {
   const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
   const [productTypes, setProductTypes] = useState<ProductType[]>([]);
   const [productToEdit, setProductToEdit] = useState<Product | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [user, setUser] = useState<User | null>(null);
 
   // Customer specific state
   const [items, setItems] = useState<OrderItem[]>([]);
   const [orderItemsNumber, setOrderItemsNumber] = useState<number>(0);
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [customerOrders, setCustomerOrders] = useState<Order[]>([]);
 
   const appendManufacturers = (m: Manufacturer) => {
     setManufacturers([...manufacturers, m]);
@@ -68,7 +70,7 @@ function App() {
 
   const increaseOrderItemsNumber = () => {
     setOrderItemsNumber(orderItemsNumber + 1);
-  }
+  };
 
   const cancelOrder = (cancel: boolean) => {
     if (cancel) setItems([]);
@@ -80,7 +82,7 @@ function App() {
     items2.splice(items2.indexOf(orderToRemove), 1);
     setItems(items2);
   };
-  
+
   const changeOrderItem = (productID: number | null, quantity: number) => {
     if (quantity && productID) {
       let items2: OrderItem[] = [...items];
@@ -93,17 +95,19 @@ function App() {
   };
 
   const addOrder = (order: Order) => {
-    let orders2: any = [...orders];
-    orders2.push(order);
-    setOrders(orders2);
+    let customerOrders2: any = [...customerOrders];
+    customerOrders2.push(order);
+    setCustomerOrders(customerOrders2);
   };
 
   const getData = async () => {
     const manufacturers: Manufacturer[] = await GetAllManufacturers();
     const productTypes: ProductType[] = await GetAllProductTypes();
+    const orders: Order[] = await GetAllOrders();
 
     setManufacturers(manufacturers);
     setProductTypes(productTypes);
+    setOrders(orders);
   };
 
   useEffect(() => {
@@ -153,14 +157,23 @@ function App() {
                   path="viewProducts"
                   element={<ViewProducts onEditProduct={setProductToEdit} />}
                 />
-                <Route path="manageOrders" element={<ManageOrders />} />
+                <Route
+                  path="manageOrders"
+                  element={<ManageOrders orders={orders} />}
+                />
               </Route>
               <Route path="user" element={<MainUser />}>
                 <Route index element={<Profile user={user} />} />
                 <Route path="profile" element={<Profile user={user} />} />
                 <Route
                   path="catalog"
-                  element={<Catalog orderItemsNumber={orderItemsNumber} addToCart={addToCart} increaseOrderItemsNumber={increaseOrderItemsNumber}/>}
+                  element={
+                    <Catalog
+                      orderItemsNumber={orderItemsNumber}
+                      addToCart={addToCart}
+                      increaseOrderItemsNumber={increaseOrderItemsNumber}
+                    />
+                  }
                 />
                 <Route
                   path="myCart"

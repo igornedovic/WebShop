@@ -62,49 +62,66 @@ export async function AddProduct(product: Product) {
 }
 
 export async function GetAllProducts(): Promise<Product[]> {
-  const res = await fetch(baseUrl + "/product");
-  return await res.json();
+  const response = await fetch(baseUrl + "/product");
+  return await response.json();
 }
 
 export async function UpdateProduct(product: Product) {
-  const res = await fetch(baseUrl + `/product/${product?.id}`, {
+  const response = await fetch(baseUrl + `/product/${product?.id}`, {
     method: "PUT",
     body: JSON.stringify(product),
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return await res.json();
+  return await response.json();
 }
 
 export async function DeleteProduct(id: number) {
-  const res = await fetch(baseUrl + `/product/${id}`, {
+  const response = await fetch(baseUrl + `/product/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return res;
+  return response;
 }
 
 export async function UpdateUser(user: User) {
-  const res = await fetch(baseUrl + `/user/${user?.userId}`, {
+  const response = await fetch(baseUrl + `/user/${user?.userId}`, {
     method: "PUT",
     body: JSON.stringify(user),
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return await res.json();
+  return await response.json();
 }
 
 export async function AddOrder(order: Order) {
-  const res = await fetch(baseUrl + `/order`, {
+  const response = await fetch(baseUrl + `/order`, {
     method: "POST",
     body: JSON.stringify(order),
     headers: {
       "Content-Type": "application/json",
     },
   });
-  return await res.json();
+  return await response.json();
+}
+
+export async function GetAllOrders(): Promise<Order[]> {
+  const response = await fetch(baseUrl + `/order`);
+  return await response.json();
+}
+
+export async function UpdateOrder(order: Order) {
+  const response = await fetch(baseUrl + `/order/${order?.id}`, {
+    method: "PUT",
+    body: JSON.stringify(order),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  });
+  return await response.json();
 }
