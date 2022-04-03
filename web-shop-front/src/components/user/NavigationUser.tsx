@@ -41,7 +41,7 @@ function NavigationUser(props: Props) {
   return (
     <Drawer
       variant="permanent"
-      classes={{paper: classes.paper}}
+      classes={{ paper: classes.paper }}
       anchor="left"
       ModalProps={{
         keepMounted: true,
@@ -96,12 +96,6 @@ function NavigationUser(props: Props) {
         </ListItem>
       </List>
       <Divider />
-      <List>
-        <ListItem button component={Link} to="contact">
-          <MailIcon style={{ paddingRight: "10px", color: "#222431" }} />
-          <ListItemText>Kontakt</ListItemText>
-        </ListItem>
-      </List>
     </Drawer>
   );
 }

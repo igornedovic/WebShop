@@ -63,9 +63,21 @@ namespace Service
             }
         }
 
-        public Task<IEnumerable<Order>> GetAllOrdersForUser(int userId)
+        public async Task<IEnumerable<Order>> GetAllOrdersForUser(int userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Orders.Include(u => u.User)
+                                            .Include(oi => oi.OrderItems)
+                                            .ThenInclude(p => p.Product)
+                                            .Where(o => o.UserId == userId)
+                                            .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public Task<Order> GetOrder(int orderId)

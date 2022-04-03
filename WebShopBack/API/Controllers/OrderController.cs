@@ -37,12 +37,23 @@ namespace API.Controllers
             return Ok(orders);
         }
 
-        // PUT: api/product/{id}
+        // PUT: api/order/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateOrder(int id, [FromBody] Order order)
         {
             if (await _orderService.UpdateOrder(id, order)) return Ok(order);
             return BadRequest();
+        }
+
+        // GET: api/order/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetAllOrdersForUser(int id)
+        {
+            var orders = await _orderService.GetAllOrdersForUser(id);
+
+            if (orders == null) return NotFound();
+
+            return Ok(orders);
         }
     }
 }

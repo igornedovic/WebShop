@@ -25,7 +25,6 @@ import Profile from "./components/user/Profile";
 import Catalog from "./components/user/Catalog";
 import MyCart from "./components/user/MyCart";
 import MyOrders from "./components/user/MyOrders";
-import ContactAdmin from "./components/user/ContactAdmin";
 
 export const ManufacturerContext = createContext<Manufacturer[]>([]);
 export const ProductTypeContext = createContext<ProductType[]>([]);
@@ -188,8 +187,10 @@ function App() {
                     />
                   }
                 />
-                <Route path="myOrders" element={<MyOrders />} />
-                <Route path="contact" element={<ContactAdmin />} />
+                <Route
+                  path="myOrders"
+                  element={<MyOrders user={user} orders={customerOrders} />}
+                />
               </Route>
             </Route>
             <Route path="*" element={<Navigate to="/login" />} />

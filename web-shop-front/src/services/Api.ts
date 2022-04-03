@@ -125,3 +125,8 @@ export async function UpdateOrder(order: Order) {
   });
   return await response.json();
 }
+
+export async function GetAllOrdersForUser(id: number): Promise<Order[]> {
+  const response = await fetch(baseUrl + `/order/${id}`);
+  return await response.json();
+}
