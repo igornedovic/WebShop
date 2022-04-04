@@ -27,7 +27,9 @@ export const useStyles = makeStyles(() =>
       maxWidth: "12vw",
       height: "90vh",
       float: "left",
+      marginTop: "64px",
       backgroundColor: "#E1E2EB",
+
     },
     content: {
       overflow: "hidden",

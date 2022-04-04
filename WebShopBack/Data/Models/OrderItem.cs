@@ -18,7 +18,7 @@ namespace Data.Models
         [Required]
         public double OrderItemPrice { get; set; }
         [Required]
-        public int ProductId {get; set;}
+        public int? ProductId {get; set;}
         public Product Product { get; set; }
     }
 }

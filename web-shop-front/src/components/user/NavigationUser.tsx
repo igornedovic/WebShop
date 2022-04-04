@@ -12,7 +12,6 @@ import {
 } from "@material-ui/core";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
-import MailIcon from "@material-ui/icons/Mail";
 import PersonIcon from "@material-ui/icons/Person";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useStyles } from "../../styles/Style";
