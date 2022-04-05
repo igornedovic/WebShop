@@ -348,7 +348,8 @@ function ViewProducts(props: Props) {
           <Table className={classes.table} ref={componentRef}>
             <TableHead>
               <TableRow>
-                <StyledTableCell>Naziv proizvoda</StyledTableCell>
+                <StyledTableCell>Slika</StyledTableCell>
+                <StyledTableCell align="right">Naziv proizvoda</StyledTableCell>
                 <StyledTableCell align="right">Proizvodjac</StyledTableCell>
                 <StyledTableCell align="right">Kategorija</StyledTableCell>
                 <StyledTableCell align="right">Cena</StyledTableCell>
@@ -359,8 +360,11 @@ function ViewProducts(props: Props) {
             {filteredProducts?.length > 0 ? (
               <TableBody>
                 {filteredProducts?.map((row: Product) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell component="th" scope="row" align="center">
+                      <img src={row.imageUrl} alt="slika_proizvoda" style={{width: "100px", height: "100px"}}/>
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
                       {row.name}
                     </StyledTableCell>
                     <StyledTableCell align="right">

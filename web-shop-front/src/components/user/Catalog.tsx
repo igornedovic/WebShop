@@ -268,7 +268,8 @@ function Catalog(props: Props) {
           >
             <TableHead>
               <TableRow>
-                <StyledTableCell>Naziv proizvoda</StyledTableCell>
+                <StyledTableCell>Slika</StyledTableCell>
+                <StyledTableCell align="right">Naziv proizvoda</StyledTableCell>
                 <StyledTableCell align="right">Proizvodjac</StyledTableCell>
                 <StyledTableCell align="right">Kategorija</StyledTableCell>
                 <StyledTableCell align="right">Cena</StyledTableCell>
@@ -278,10 +279,15 @@ function Catalog(props: Props) {
             {filteredProducts?.length > 0 ? (
               <TableBody>
                 {filteredProducts?.slice(page * 5, page * 5 + 5).map((row) => (
-                  <StyledTableRow key={row.name}>
-                    <StyledTableCell component="th" scope="row">
-                      {row.name}
+                  <StyledTableRow key={row.id}>
+                    <StyledTableCell component="th" scope="row" align="center">
+                      <img
+                        src={row.imageUrl}
+                        alt="slika_proizvoda"
+                        style={{ width: "100px", height: "100px" }}
+                      />
                     </StyledTableCell>
+                    <StyledTableCell align="right">{row.name}</StyledTableCell>
                     <StyledTableCell align="right">
                       {row?.manufacturer?.name}
                     </StyledTableCell>

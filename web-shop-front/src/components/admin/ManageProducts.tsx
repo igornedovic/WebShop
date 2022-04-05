@@ -36,6 +36,7 @@ import { ProductTypeContext } from "../../App";
 import ManageCharacteristics from "./ManageProducts/ManageCharacteristics";
 import { AddProduct, UpdateProduct } from "../../services/Api";
 import { GetAllManufacturers, GetAllProductTypes } from "../../services/Api";
+import { uploadImage } from "../../services/publicApi";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -84,6 +85,8 @@ function ManageProducts(props: Props) {
 
   const [openAlert, setOpenAlert] = useState<boolean>(false);
   const [openAlertError, setOpenAlertError] = useState<boolean>(false);
+
+  const [imageSelected, setImageSelected] = useState<any>("");
 
   function IsThereCharacteristic(name: string) {
     return characteristics.find((x) => x.name === name);
@@ -143,8 +146,11 @@ function ManageProducts(props: Props) {
     setOpenAlertError(false);
   };
 
-  const handleAddProduct = (e: any) => {
+  const handleAddProduct = async (e: any) => {
     e.preventDefault();
+
+    const imageUrl = await uploadImage(imageSelected);
+
     if (
       productType !== null &&
       manufacturer !== null &&
@@ -152,12 +158,13 @@ function ManageProducts(props: Props) {
       name !== null &&
       name !== "" &&
       price !== null &&
-      price !== ""
+      price !== "" && imageUrl !== null
     ) {
       let product: Product = new Product(
         name,
         price,
         characteristics,
+        imageUrl,
         manufacturer,
         productType
       );
@@ -167,6 +174,8 @@ function ManageProducts(props: Props) {
         product.id = props.productToEdit.id;
         OnUpdateProduct(product);
       }
+
+      console.log("TEST3");
     }
   };
 
@@ -306,6 +315,26 @@ function ManageProducts(props: Props) {
                 variant="outlined"
                 onChange={(e) => setPrice(Number(e.target.value))}
                 value={price}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid container className={classes.gridContainer}>
+          <Grid item xs={12} className={classes.gridItem}>
+            <Grid item className={classes.label}>
+              <label>Slika: </label>
+            </Grid>
+            <Grid item className={classes.gridItem}>
+              <TextField
+                type="file"
+                name="productImage"
+                InputProps={{ disableUnderline: true }}
+                onChange={(e) => {
+                  let files = (e.target as HTMLInputElement).files;
+                  if (files && files[0]) {
+                    setImageSelected(files[0]);
+                  }
+                }}
               />
             </Grid>
           </Grid>

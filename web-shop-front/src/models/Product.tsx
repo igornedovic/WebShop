@@ -7,6 +7,7 @@ export class Product {
   name: string;
   price: number;
   characteristics: Characteristics[] = new Array(300);
+  imageUrl: string;
   manufacturerId: number;
   manufacturer: Manufacturer | null = null;
   productTypeId: number;
@@ -16,12 +17,14 @@ export class Product {
     name: string,
     price: number,
     characteristics: Characteristics[],
+    imageUrl: string,
     manufacturerId: number,
     productTypeId: number
   ) {
     this.name = name;
     this.price = price;
     this.characteristics = characteristics;
+    this.imageUrl = imageUrl;
     this.manufacturerId = manufacturerId;
     this.productTypeId = productTypeId;
   }

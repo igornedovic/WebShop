@@ -15,6 +15,8 @@ namespace Data.Models
         public string Name { get; set; }
         [Required]
         public double Price { get; set; }
+
+        public string ImageUrl { get; set; }
         public int ManufacturerId { get; set; }
         public Manufacturer Manufacturer { get; set; }
         public int ProductTypeId { get; set; }
