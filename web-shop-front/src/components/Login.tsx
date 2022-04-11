@@ -5,6 +5,7 @@ import { User } from "../models/User";
 import { RequestUser } from "../models/RequestUser";
 import { useStyles } from "../styles/Style";
 import Alerts from "./Alerts";
+import { LoginUser } from "../services/Api";
 
 interface Props {
   storeOnlineUser: (u: User) => void;
@@ -26,61 +27,32 @@ function Login(props: Props) {
     }
   };
 
-  const login = () => {
+  const login = async () => {
     let requestUser: RequestUser = new RequestUser("", "");
     if (username !== null && password !== null) {
       requestUser.username = username;
       requestUser.password = password;
-      fetch("http://localhost:5000/api/user/login", {
-        method: "POST",
-        body: JSON.stringify(requestUser),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((response) => {
-        if (response.status !== 401) {
-          response.json().then((result) => {
-            console.log(result);
-            let u: User = new User(
-              result.firstName,
-              result.lastName,
-              result.phone,
-              result.email,
-              result.username,
-              result.password,
-              result.isAdmin,
-              result.image,
-              result.id
-            );
-            localStorage.setItem(
-              "login",
-              JSON.stringify({
-                loggedIn: true,
-                token: result.token,
-                user: JSON.stringify(u),
-              })
-            );
-            storeCollector();
 
-            setUser(u);
+      const loggedInUser = await LoginUser(requestUser);
 
-            props.storeOnlineUser(u);
+      if (loggedInUser) {
+        setUser(loggedInUser);
 
-            let path;
-            if (u?.isAdmin) {
-              path = "/home/admin";
-            } else {
-              path = "/home/user";
-            }
+        props.storeOnlineUser(loggedInUser);
 
-            navigate(path);
-          });
+        let path;
+        if (loggedInUser?.isAdmin) {
+          path = "/home/admin";
         } else {
-          handleClickAlert();
-          setUsername(null);
-          setPassword(null);
+          path = "/home/user";
         }
-      });
+
+        navigate(path);
+      } else {
+        handleClickAlert();
+        setUsername(null);
+        setPassword(null);
+      }
     }
   };
 

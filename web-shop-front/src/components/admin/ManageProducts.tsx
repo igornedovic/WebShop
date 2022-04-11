@@ -36,7 +36,7 @@ import { ProductTypeContext } from "../../App";
 import ManageCharacteristics from "./ManageProducts/ManageCharacteristics";
 import { AddProduct, UpdateProduct } from "../../services/Api";
 import { GetAllManufacturers, GetAllProductTypes } from "../../services/Api";
-import { uploadImage } from "../../services/publicApi";
+import { UploadImage } from "../../services/publicApi";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -149,7 +149,7 @@ function ManageProducts(props: Props) {
   const handleAddProduct = async (e: any) => {
     e.preventDefault();
 
-    const imageUrl = await uploadImage(imageSelected);
+    const imageUrl = await UploadImage(imageSelected);
 
     if (
       productType !== null &&
@@ -158,7 +158,8 @@ function ManageProducts(props: Props) {
       name !== null &&
       name !== "" &&
       price !== null &&
-      price !== "" && imageUrl !== null
+      price !== "" &&
+      imageUrl !== null
     ) {
       let product: Product = new Product(
         name,
@@ -174,8 +175,6 @@ function ManageProducts(props: Props) {
         product.id = props.productToEdit.id;
         OnUpdateProduct(product);
       }
-
-      console.log("TEST3");
     }
   };
 

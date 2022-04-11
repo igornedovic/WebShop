@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Data;
+using Data.Entities;
 using Data.Interfaces;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,12 +14,6 @@ namespace Service
 {
     public class UserService : IUserService
     {
-        private User _admin = new User
-        {
-            Username = "admin",
-            Password = "admin",
-            IsAdmin = true
-        };
         private readonly ApplicationDbContext _context;
 
         public UserService(ApplicationDbContext context)
@@ -24,12 +21,29 @@ namespace Service
             _context = context;
 
         }
-        public async Task<bool> AddUser(User user)
+        public async Task<bool> AddUser(RegisterDTO user)
         {
             try
             {
                 if (UserExists(user.Username)) return false; // Korisinik vec postoji pa vracamo false
-                _context.Add(user);
+
+                using var hmac = new HMACSHA512();
+
+                var newUser = new User
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Phone = user.Phone,
+                    Email = user.Email,
+                    Username = user.Username,
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
+                    PasswordSalt = hmac.Key,
+                    IsAdmin = user.IsAdmin,
+                    Role = user.Role,
+                    Image = user?.Image
+                };
+
+                _context.Add(newUser);
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -44,16 +58,11 @@ namespace Service
             return _context.Users.Any(user => user.Username == username);
         }
 
-        public async Task<User> Login(string username, string password)
+        public async Task<User> Login(string username)
         {
             try
             {
-                if (_admin.Username == username && _admin.Password == password)
-                {
-                    return _admin;
-                }
-
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username && u.Password == password);
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
 
                 return user;
             }
@@ -75,10 +84,12 @@ namespace Service
             }
         }
 
-        public async Task<bool> UpdateUser(int userId, User user)
+        public async Task<bool> UpdateUser(int userId, RegisterDTO user)
         {
             try
             {
+                using var hmac = new HMACSHA512();
+                
                 _context.Users.Update(new User
                 {
                     UserId = userId,
@@ -87,9 +98,11 @@ namespace Service
                     Phone = user.Phone,
                     Email = user.Email,
                     Username = user.Username,
-                    Password = user.Password,
+                    PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
+                    PasswordSalt = hmac.Key,
                     IsAdmin = user.IsAdmin,
-                    Image = user.Image
+                    Role = user.Role,
+                    Image = user?.Image
                 });
 
                 await _context.SaveChangesAsync();

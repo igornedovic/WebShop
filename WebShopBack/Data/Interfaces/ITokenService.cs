@@ -10,6 +10,6 @@ namespace Data.Interfaces
     public interface ITokenService
     {
         string CreateToken(User user);
-        AuthenticationResponse CreateResponse(string tokenString, User user);
+        AuthenticationResponse CreateResponse(string tokenString, User user, string password);
     }
 }

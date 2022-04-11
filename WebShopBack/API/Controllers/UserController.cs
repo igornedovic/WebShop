@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using API.Helpers;
@@ -30,7 +31,7 @@ namespace API.Controllers
 
         // POST: api/user/register
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(User user)
+        public async Task<ActionResult<User>> Register(RegisterDTO user)
         {
             if (await _userService.AddUser(user)) return Ok(user);
             return NotFound();
@@ -40,18 +41,27 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<AuthenticationResponse>> Login(AuthenticationRequest request)
         {
-            var user = await _userService.Login(request.Username, request.Password);
+            var user = await _userService.Login(request.Username);
 
-            if (user == null) return Unauthorized("Invalid credentials");
+            if (user == null) return Unauthorized("Invalid username");
+
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password));
+
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
+            }
 
             var tokenString = _tokenService.CreateToken(user);
-            AuthenticationResponse response = _tokenService.CreateResponse(tokenString, user);
+            AuthenticationResponse response = _tokenService.CreateResponse(tokenString, user, request.Password);
             return Ok(response);
         }
 
         // PUT: api/user/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateUser(int id, [FromBody] User user)
+        public async Task<ActionResult> UpdateUser(int id, [FromBody] RegisterDTO user)
         {
             if (await _userService.UpdateUser(id, user)) return Ok(user);
             return BadRequest();

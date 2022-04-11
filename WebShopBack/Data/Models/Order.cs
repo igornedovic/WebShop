@@ -17,7 +17,7 @@ namespace Data.Models
         [Required]
         public double SumPrice { get; set; }
         [Required]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
         [Required]
         public string Status { get; set; }

@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Data.Models
+namespace Data.Entities
 {
-    public class User
+    public class RegisterDTO
     {
         public int? UserId { get; set; }
         public string FirstName { get; set; }
@@ -16,14 +16,11 @@ namespace Data.Models
         [Required]
         public string Username { get; set; }
         [Required]
-        public byte[] PasswordHash { get; set; }
-        [Required]
-        public byte[] PasswordSalt { get; set; }
+        public string Password { get; set; }
         [Required]
         public bool IsAdmin { get; set; }
         [Required]
         public string Role { get; set; }
         public string Image { get; set; }
-
     }
 }

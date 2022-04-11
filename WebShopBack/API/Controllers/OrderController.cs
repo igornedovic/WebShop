@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data.Interfaces;
 using Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,6 +21,7 @@ namespace API.Controllers
 
         // POST: api/order
         [HttpPost]
+        [Authorize(Roles = "Customer")]
         public async Task<ActionResult<Order>> AddOrder([FromBody] Order order)
         {
             if (await _orderService.AddOrder(order)) return Ok(order);
@@ -39,6 +41,7 @@ namespace API.Controllers
 
         // PUT: api/order/{id}
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateOrder(int id, [FromBody] Order order)
         {
             if (await _orderService.UpdateOrder(id, order)) return Ok(order);

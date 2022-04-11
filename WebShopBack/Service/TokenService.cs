@@ -29,7 +29,7 @@ namespace Service
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Name, user.UserId.ToString())
+                    new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -39,15 +39,16 @@ namespace Service
             return tokenString;
         }
 
-        public AuthenticationResponse CreateResponse(string tokenString, User user)
+        public AuthenticationResponse CreateResponse(string tokenString, User user, string password)
         {
             AuthenticationResponse response = new AuthenticationResponse();
             response.Email = user.Email;
             response.Id = user.UserId;
             response.Token = tokenString;
             response.Username = user.Username;
-            response.Password = user.Password;
+            response.Password = password;
             response.IsAdmin = user.IsAdmin;
+            response.Role = user.Role;
             response.FirstName = user.FirstName;
             response.LastName = user.LastName;
             response.Phone = user.Phone;

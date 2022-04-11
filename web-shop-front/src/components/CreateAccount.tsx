@@ -122,6 +122,7 @@ function CreateAccount() {
         username!,
         password!,
         false,
+        "Customer",
         image!
       );
 

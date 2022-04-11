@@ -154,6 +154,7 @@ export default function Profile(props: Props) {
         username,
         password,
         props.user.isAdmin,
+        props.user.role,
         props.user.image,
         props.user.userId
       );

@@ -1,10 +1,66 @@
 import { User } from "../models/User";
+import { RequestUser } from "../models/RequestUser";
 import { Manufacturer } from "../models/Manufacturer";
 import { ProductType } from "../models/ProductType";
 import { Product } from "../models/Product";
 import { Order } from "../models/Order";
 
 const baseUrl = "http://localhost:5000/api";
+
+let tokenValue: string;
+
+export async function LoginUser(
+  requestUser: RequestUser
+): Promise<User | null> {
+  let user;
+
+  await fetch(baseUrl + "/user/login", {
+    method: "POST",
+    body: JSON.stringify(requestUser),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      user = new User(
+        data.firstName,
+        data.lastName,
+        data.phone,
+        data.email,
+        data.username,
+        data.password,
+        data.isAdmin,
+        data.role,
+        data.image,
+        data.id
+      );
+
+      localStorage.setItem(
+        "login",
+        JSON.stringify({
+          loggedIn: true,
+          token: data.token,
+          user: JSON.stringify(user),
+        })
+      );
+
+      let dataLocalStorage = JSON.parse(localStorage.getItem("login")!);
+
+      if (dataLocalStorage) {
+        tokenValue = `Bearer ${dataLocalStorage.token}`;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+  if (user) {
+    return user;
+  }
+
+  return null;
+}
 
 export async function AddUser(user: User) {
   const response = await fetch(baseUrl + "/user/register", {
@@ -29,6 +85,7 @@ export async function AddManufacturer(manufacturer: Manufacturer) {
     body: JSON.stringify(manufacturer),
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
     },
   });
   return await response.json();
@@ -45,6 +102,7 @@ export async function AddProductType(productType: ProductType) {
     body: JSON.stringify(productType),
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
     },
   });
   return await response.json();
@@ -56,6 +114,7 @@ export async function AddProduct(product: Product) {
     body: JSON.stringify(product),
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
     },
   });
   return await response.json();
@@ -72,6 +131,7 @@ export async function UpdateProduct(product: Product) {
     body: JSON.stringify(product),
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
     },
   });
   return await response.json();
@@ -82,6 +142,7 @@ export async function DeleteProduct(id: number) {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
     },
   });
   return response;
@@ -93,6 +154,7 @@ export async function UpdateUser(user: User) {
     body: JSON.stringify(user),
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
     },
   });
   return await response.json();
@@ -104,6 +166,7 @@ export async function AddOrder(order: Order) {
     body: JSON.stringify(order),
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
     },
   });
   return await response.json();
@@ -120,6 +183,7 @@ export async function UpdateOrder(order: Order) {
     body: JSON.stringify(order),
     headers: {
       "Content-Type": "application/json",
+      Authorization: tokenValue,
       Accept: "application/json",
     },
   });

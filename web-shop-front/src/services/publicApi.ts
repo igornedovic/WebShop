@@ -1,4 +1,4 @@
-export const uploadImage = async (imageSelected: any): Promise<string | null> => {
+export const UploadImage = async (imageSelected: any): Promise<string | null> => {
     const formData = new FormData();
     formData.append("file", imageSelected);
     formData.append("upload_preset", "tnzfsbju");

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Data.Interfaces;
 using Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -32,6 +33,7 @@ namespace API.Controllers
 
         // POST: api/productType
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> AddProductType(ProductType productType)
         {
             if (await _productTypeService.AddProductType(productType)) return Ok(productType);

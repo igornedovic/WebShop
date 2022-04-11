@@ -7,6 +7,7 @@ export class User {
   username: string;
   password: string;
   isAdmin: boolean;
+  role: string;
   image: string | undefined;
 
   constructor(
@@ -17,6 +18,7 @@ export class User {
     username: string,
     password: string,
     isAdmin: boolean,
+    role: string,
     image?: string,
     id?: number
   ) {
@@ -27,6 +29,7 @@ export class User {
     this.username = username;
     this.password = password;
     this.isAdmin = isAdmin;
+    this.role = role;
     this.image = image;
 
     if (id) {

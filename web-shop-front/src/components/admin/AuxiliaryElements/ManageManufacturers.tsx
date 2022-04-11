@@ -79,9 +79,8 @@ function ManageManufacturers(props: Props) {
         handleCancel();
         props.appendManufacturers(man);
       }
-    } catch (e) {
-      console.log("error during adding manufacturer");
-      console.log(e);
+    } catch {
+      console.log("error while adding manufacturer");
       handleClickAlertError();
     }
   };
