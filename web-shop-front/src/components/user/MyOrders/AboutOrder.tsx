@@ -70,7 +70,7 @@ function AboutOrder(props: Props) {
               <TableCell style={{ color: 'white' }}>Naziv proizvoda</TableCell>
               <TableCell style={{ color: 'white' }}>Jedinicna cena</TableCell>
               <TableCell style={{ color: 'white' }}>Kolicina</TableCell>
-              <TableCell style={{ color: 'white' }}>Iznos stavke</TableCell>
+              <TableCell style={{ color: 'white' }}>Iznos</TableCell>
             </TableRow>
           </TableHead>
           <TableBody className={classes.tbody}>

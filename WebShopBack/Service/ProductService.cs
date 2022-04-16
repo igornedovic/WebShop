@@ -104,6 +104,7 @@ namespace Service
                     ID = productId,
                     Name = product.Name,
                     Price = product.Price,
+                    ImageUrl = product.ImageUrl,
                     ManufacturerId = product.ManufacturerId,
                     ProductTypeId = product.ProductTypeId,
                     Characteristics = product.Characteristics

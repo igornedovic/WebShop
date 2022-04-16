@@ -34,10 +34,10 @@ function NavigationAdmin() {
         textColor="primary"
         centered
       >
-        <Tab component={Link} to="auxiliary" label="Auxiliary elements" />
-        <Tab component={Link} to="manageProducts" label="Add new product" />
-        <Tab component={Link} to="viewProducts" label="View products" />
-        <Tab component={Link} to="manageOrders" label="Manage orders" />
+        <Tab component={Link} to="pomocna" label="Pomocni elementi" />
+        <Tab component={Link} to="proizvodi" label="Dodavanje proizvoda" />
+        <Tab component={Link} to="pregledProizvoda" label="Pregled proizvoda" />
+        <Tab component={Link} to="porudzbine" label="Porudzbine" />
       </Tabs>
     </Paper>
   );

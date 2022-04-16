@@ -14,7 +14,6 @@ import {
   TableRow,
   TextField,
 } from "@material-ui/core";
-import Icon from "@material-ui/core/Icon";
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteIcon from "@material-ui/icons/Delete";
 import {
@@ -129,7 +128,7 @@ function MyCart(props: Props) {
         handleCancelOrder();
       }
     } catch {
-      console.log("error in adding order");
+      console.log("Greska prilikom dodavanja porudzbine!");
       handleClickAlertError();
     }
   };
@@ -204,9 +203,9 @@ function MyCart(props: Props) {
               <TableCell style={{ color: "white" }}>Naziv proizvoda</TableCell>
               <TableCell style={{ color: "white" }}>Jedinicna cena</TableCell>
               <TableCell style={{ color: "white" }}>Kolicina</TableCell>
-              <TableCell style={{ color: "white" }}>Iznos stavke</TableCell>
+              <TableCell style={{ color: "white" }}>Iznos</TableCell>
               <TableCell style={{ color: "white" }}>
-                Izmeni/Obrisi stavku
+                Izmeni/Obrisi
               </TableCell>
             </TableRow>
           </TableHead>

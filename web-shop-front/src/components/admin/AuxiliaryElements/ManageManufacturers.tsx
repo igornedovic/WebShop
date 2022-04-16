@@ -80,7 +80,7 @@ function ManageManufacturers(props: Props) {
         props.appendManufacturers(man);
       }
     } catch {
-      console.log("error while adding manufacturer");
+      console.log("Greska prilikom cuvanja proizvodjaca!");
       handleClickAlertError();
     }
   };
@@ -123,7 +123,7 @@ function ManageManufacturers(props: Props) {
         onClose={handleCloseAlert}
       >
         <Alert onClose={handleCloseAlert} severity="success">
-          Manufacturer created successfully!
+          Uspesno kreiran novi proizvodjac!
         </Alert>
       </Snackbar>
       <Snackbar
@@ -132,17 +132,17 @@ function ManageManufacturers(props: Props) {
         onClose={handleCloseAlertError}
       >
         <Alert onClose={handleCloseAlertError} severity="error">
-          Cannot save new manufacturer!
+          Nije moguce sacuvati novog proizvodjaca!
         </Alert>
       </Snackbar>
       <Grid item xs={12} className={classes.gridItem}>
-        <label className={classes.labelMain}>Add Manufacturer...</label>
+        <label className={classes.labelMain}>Novi proizvodjac</label>
       </Grid>
       <Grid item xs={12} className={classes.gridItem}>
-        <label className={classes.label}>Name </label>
+        <label className={classes.label}>Naziv </label>
         <Tooltip
           open={openName}
-          title="Please enter a valid name!"
+          title="Unesite ispravan naziv!"
           placement="right"
         >
           <TextField
@@ -159,10 +159,10 @@ function ManageManufacturers(props: Props) {
         </Tooltip>
       </Grid>
       <Grid item xs={12} className={classes.gridItem}>
-        <label className={classes.label}>Phone number </label>
+        <label className={classes.label}>Broj telefona </label>
         <Tooltip
           open={openPhone}
-          title="Pelase enter a valid phone number!"
+          title="Unesite ispravan broj telefona!"
           placement="right"
         >
           <TextField
@@ -182,7 +182,7 @@ function ManageManufacturers(props: Props) {
         <label className={classes.label}>Email </label>
         <Tooltip
           open={openEmail}
-          title="Please enter a valid email!"
+          title="Unesite ispravan email!"
           placement="right"
         >
           <TextField
@@ -199,10 +199,10 @@ function ManageManufacturers(props: Props) {
         </Tooltip>
       </Grid>
       <Grid item xs={12} className={classes.gridItem}>
-        <label className={classes.label}>Address </label>
+        <label className={classes.label}>Adresa </label>
         <Tooltip
           open={openAddress}
-          title="Please enter a valid address!"
+          title="Unesite ispravnu adresu!"
           placement="right"
         >
           <TextField
@@ -228,7 +228,7 @@ function ManageManufacturers(props: Props) {
             style={{ backgroundColor: "#676d92", color: "white" }}
             className={classes.btns}
           >
-            Dismiss
+            Ponisti
           </Button>
         </Grid>
         <Grid item xs={6}>
@@ -240,7 +240,7 @@ function ManageManufacturers(props: Props) {
             style={{ backgroundColor: "#222431", color: "white" }}
             className={classes.btns}
           >
-            Save
+            Sacuvaj
           </Button>
         </Grid>
       </Grid>

@@ -107,7 +107,7 @@ function ViewProducts(props: Props) {
         }
       }
     } catch {
-      console.log("error in deleting product");
+      console.log("Greska prilikom brisanja proizvoda!");
       handleClickAlertError();
     }
   };
@@ -265,7 +265,7 @@ function ViewProducts(props: Props) {
         onClose={handleCloseAlertError}
       >
         <Alert onClose={handleCloseAlertError} severity="warning">
-          Nije moguce obrisati proizvod.
+          Nije moguce obrisati proizvod!
         </Alert>
       </Snackbar>
       <Grid container>

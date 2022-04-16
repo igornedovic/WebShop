@@ -99,7 +99,7 @@ function AboutOrder(props: Props) {
         setDisable(false);
       }
     } catch (e) {
-      console.log("error in updating status");
+      console.log("Greska prilikom promene statusa porudzbine!");
       console.log(e);
       handleClickAlertError();
     }

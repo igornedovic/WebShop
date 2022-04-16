@@ -42,9 +42,9 @@ function Login(props: Props) {
 
         let path;
         if (loggedInUser?.isAdmin) {
-          path = "/home/admin";
+          path = "/pocetna/admin";
         } else {
-          path = "/home/user";
+          path = "/pocetna/korisnik";
         }
 
         navigate(path);
@@ -93,7 +93,7 @@ function Login(props: Props) {
           <Button
             variant="contained"
             className={classes.loginButton}
-            style={{ backgroundColor: "#4EB8CE", color: "#222431" }}
+            style={{ backgroundColor: "rgb(34, 36, 49)", color: "white" }}
             onClick={login}
           >
             Prijavi se
@@ -101,9 +101,9 @@ function Login(props: Props) {
           <Button
             variant="contained"
             className={classes.loginButton}
-            style={{ backgroundColor: "#222431", color: "#4EB8CE" }}
+            style={{ backgroundColor: "rgb(34, 36, 49)", color: "white" }}
             component={Link}
-            to="/register"
+            to="/registracija"
           >
             Kreiraj nalog
           </Button>

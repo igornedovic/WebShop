@@ -252,7 +252,7 @@ function CreateAccount() {
             <Tooltip title="URL slike">
               <TextField
                 id="outlined-basic-image"
-                label="Slika"
+                label="Slika (opciono)"
                 variant="outlined"
                 className={classes.elements}
                 value={image || ""}
@@ -264,21 +264,21 @@ function CreateAccount() {
             <Button
               variant="contained"
               style={{
-                backgroundColor: "#4EB8CE",
-                color: "#222431",
+                backgroundColor: "rgb(34, 36, 49)",
+                color: "white",
               }}
               className={classes.buttons}
               startIcon={<ArrowBackIos />}
               component={Link}
-              to="/login"
+              to="/prijava"
             >
               Nazad
             </Button>
             <Button
               variant="contained"
               style={{
-                backgroundColor: "#222431",
-                color: "#4EB8CE",
+                backgroundColor: "rgb(34, 36, 49)",
+                color: "white",
               }}
               className={classes.buttons}
               onClick={(e) => handleAdd(e)}

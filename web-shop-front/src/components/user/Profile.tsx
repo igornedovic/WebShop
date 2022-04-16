@@ -189,7 +189,6 @@ export default function Profile(props: Props) {
 
   const handleClickAlertError = () => {
     setOpenAlertError(true);
-    console.log("error");
   };
 
   return (

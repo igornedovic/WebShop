@@ -67,21 +67,21 @@ function NavigationUser(props: Props) {
         </ListItem>
       </List>
       <Divider />
-      <List>
+      {/* <List>
         <ListItem button component={Link} to="profile">
           <PersonIcon style={{ paddingRight: "10px", color: "#222431" }} />
           <ListItemText>Profil</ListItemText>
         </ListItem>
-      </List>
+      </List> */}
       <Divider />
       <List>
-        <ListItem button component={Link} to="catalog">
+        <ListItem button component={Link} to="katalog">
           <ImportContactsIcon
             style={{ paddingRight: "10px", color: "#222431" }}
           />
           <ListItemText>Katalog</ListItemText>
         </ListItem>
-        <ListItem button component={Link} to="myCart">
+        <ListItem button component={Link} to="korpa">
           <StyledBadge badgeContent={props.orders?.length} color="primary">
             <ShoppingCartIcon
               style={{ paddingRight: "10px", color: "#222431" }}
@@ -89,7 +89,7 @@ function NavigationUser(props: Props) {
           </StyledBadge>
           <ListItemText>Moja korpa</ListItemText>
         </ListItem>
-        <ListItem button component={Link} to="myOrders">
+        <ListItem button component={Link} to="porudzbine">
           <AssignmentIcon style={{ paddingRight: "10px", color: "#222431" }} />
           <ListItemText>Porudzbine</ListItemText>
         </ListItem>

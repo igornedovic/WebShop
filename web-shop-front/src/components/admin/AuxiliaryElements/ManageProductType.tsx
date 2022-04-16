@@ -76,7 +76,7 @@ function ManageProductType(props: Props) {
         props.appendProductTypes(type);
       }
     } catch (e) {
-      console.log("error while adding manufacturer");
+      console.log("Greska prilikom cuvanja tipa proizvoda!");
       console.log(e);
       handleClickAlertError();
     }
@@ -90,7 +90,7 @@ function ManageProductType(props: Props) {
         onClose={handleCloseAlert}
       >
         <Alert onClose={handleCloseAlert} severity="success">
-          Product type created successfully!
+          Uspesno je kreiran novi tip proizvoda!
         </Alert>
       </Snackbar>
       <Snackbar
@@ -99,17 +99,17 @@ function ManageProductType(props: Props) {
         onClose={handleCloseAlertError}
       >
         <Alert onClose={handleCloseAlertError} severity="error">
-          Cannot save new product type!
+          Nije moguce sacuvati novi tip proizvoda!
         </Alert>
       </Snackbar>
       <Grid item xs={12} className={classes.gridItem}>
-        <label className={classes.labelMain}>Add Product Type...</label>
+        <label className={classes.labelMain}>Novi tip proizvoda</label>
       </Grid>
       <Grid item xs={12} className={classes.gridItem}>
-        <label className={classes.label}>Name </label>
+        <label className={classes.label}>Naziv </label>
         <Tooltip
           open={openName}
-          title="Please enter a valid name!"
+          title="Unesite ispravan naziv!"
           placement="right"
         >
           <TextField
@@ -135,7 +135,7 @@ function ManageProductType(props: Props) {
             style={{ backgroundColor: "#676d92", color: "white" }}
             className={classes.btns}
           >
-            Dismiss
+            Ponisti
           </Button>
         </Grid>
         <Grid item xs={6}>
@@ -147,7 +147,7 @@ function ManageProductType(props: Props) {
             style={{ backgroundColor: "#222431", color: "white" }}
             className={classes.btns}
           >
-            Save
+            Sacuvaj
           </Button>
         </Grid>
       </Grid>

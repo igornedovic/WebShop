@@ -119,11 +119,11 @@ function App() {
         <ManufacturerContext.Provider value={manufacturers}>
           <Routes>
             <Route
-              path="login"
+              path="prijava"
               element={<Login storeOnlineUser={storeOnlineUser} />}
             />
-            <Route path="register" element={<CreateAccount />} />
-            <Route path="home" element={<Home />}>
+            <Route path="registracija" element={<CreateAccount />} />
+            <Route path="pocetna" element={<Home />}>
               <Route path="admin" element={<MainAdmin />}>
                 <Route
                   index
@@ -135,7 +135,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="auxiliary"
+                  path="pomocna"
                   element={
                     <AuxiliaryElements
                       appendManufacturers={appendManufacturers}
@@ -144,7 +144,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="manageProducts"
+                  path="proizvodi"
                   element={
                     <ManageProducts
                       productToEdit={productToEdit}
@@ -153,19 +153,31 @@ function App() {
                   }
                 />
                 <Route
-                  path="viewProducts"
+                  path="pregledProizvoda"
                   element={<ViewProducts onEditProduct={setProductToEdit} />}
                 />
                 <Route
-                  path="manageOrders"
+                  path="porudzbine"
                   element={<ManageOrders orders={orders} />}
                 />
               </Route>
-              <Route path="user" element={<MainUser />}>
-                <Route index element={<Profile user={user} />} />
-                <Route path="profile" element={<Profile user={user} />} />
+              <Route
+                path="korisnik"
+                element={<MainUser user={user} orders={items} />}
+              >
                 <Route
-                  path="catalog"
+                  index
+                  element={
+                    <Catalog
+                      orderItemsNumber={orderItemsNumber}
+                      addToCart={addToCart}
+                      increaseOrderItemsNumber={increaseOrderItemsNumber}
+                    />
+                  }
+                />
+                <Route path="profil" element={<Profile user={user} />} />
+                <Route
+                  path="katalog"
                   element={
                     <Catalog
                       orderItemsNumber={orderItemsNumber}
@@ -175,7 +187,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="myCart"
+                  path="korpa"
                   element={
                     <MyCart
                       user={user}
@@ -188,12 +200,12 @@ function App() {
                   }
                 />
                 <Route
-                  path="myOrders"
+                  path="porudzbine"
                   element={<MyOrders user={user} orders={customerOrders} />}
                 />
               </Route>
             </Route>
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={<Navigate to="/prijava" />} />
           </Routes>
         </ManufacturerContext.Provider>
       </ProductTypeContext.Provider>

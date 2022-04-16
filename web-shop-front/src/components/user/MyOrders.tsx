@@ -120,9 +120,9 @@ function MyOrders(props: Props) {
           );
         })
       ) : (
-        <label className={classes.labelNoOrder}>
+        <h4 className={classes.labelNoOrder}>
           Nema kreiranih porudzbina...
-        </label>
+        </h4>
       )}
       <AboutOrder
         onClose={handleClose}

@@ -79,8 +79,8 @@ function ManageProducts(props: Props) {
   const classes = useStylesAdmin();
   const [productType, setProductType] = useState<number>(1);
   const [manufacturer, setManufacturer] = useState<number>(1);
-  const [name, setName] = useState<string | null>(null);
-  const [price, setPrice] = useState<number | null | "">(null);
+  const [name, setName] = useState<string | null>("");
+  const [price, setPrice] = useState<number | null | "">("");
   const [characteristics, setCharacteristics] = useState<Characteristics[]>([]);
 
   const [openAlert, setOpenAlert] = useState<boolean>(false);
@@ -189,7 +189,7 @@ function ManageProducts(props: Props) {
         handleClear();
       }
     } catch {
-      console.log("error in adding product");
+      console.log("Greska prilikom cuvanja novog proizvoda!");
       handleClickAlertError();
     }
   };
@@ -205,7 +205,7 @@ function ManageProducts(props: Props) {
         handleClear();
       }
     } catch {
-      console.log("error in updating product");
+      console.log("Greska prilikom azuriranja proizvoda!");
       handleClickAlertError();
     }
   };
