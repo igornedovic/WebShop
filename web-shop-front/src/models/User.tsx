@@ -1,5 +1,6 @@
 export class User {
   userId: number | null = null;
+  token: string | null = null;
   firstName: string;
   lastName: string;
   phone: string;
@@ -20,7 +21,8 @@ export class User {
     isAdmin: boolean,
     role: string,
     image?: string,
-    id?: number
+    id?: number,
+    token?: string
   ) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -34,6 +36,10 @@ export class User {
 
     if (id) {
       this.userId = id;
+    }
+
+    if (token) {
+      this.token = token;
     }
   }
 }

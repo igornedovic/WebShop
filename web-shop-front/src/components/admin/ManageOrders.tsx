@@ -8,10 +8,13 @@ import {
 } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import { Order } from "../../models/Order";
+import { User } from "../../models/User";
 import { useStylesOrders } from "../../styles/ManageOrdersStyles";
 import AboutOrder from "./ManageOrders/AboutOrder";
+import { GetAllOrders } from "../../services/Api";
 
 interface Props {
+  user: User | null;
   orders: Order[];
 }
 
@@ -80,6 +83,15 @@ function ManageOrders(props: Props) {
     }
   }, [props.orders, value]);
 
+  const getOrders = async () => {
+    const orders = await GetAllOrders();
+    setOrders(orders);
+  };
+
+  useEffect(() => {
+    getOrders();
+  });
+
   return (
     <Grid component={Paper}>
       <Grid item xs={12} style={{ marginTop: "1%" }}>
@@ -117,7 +129,13 @@ function ManageOrders(props: Props) {
       </Grid>
       <Grid container>
         {orders.map((order) => {
-          return <AboutOrder order={order} onChangeOrder={handleChangeOrder} />;
+          return (
+            <AboutOrder
+              user={props.user}
+              order={order}
+              onChangeOrder={handleChangeOrder}
+            />
+          );
         })}
       </Grid>
     </Grid>

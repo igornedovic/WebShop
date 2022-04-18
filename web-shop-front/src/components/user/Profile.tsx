@@ -164,7 +164,9 @@ export default function Profile(props: Props) {
 
   const updateUser = async (user: User) => {
     try {
-      const res = await UpdateUser(user);
+      if (!props.user?.token) return;
+
+      const res = await UpdateUser(user, props.user.token);
       if (res.error) {
         handleClickAlertError();
       } else {

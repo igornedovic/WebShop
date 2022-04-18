@@ -16,7 +16,6 @@ namespace Data.Models
         public DateTime Deadline { get; set; }
         [Required]
         public double SumPrice { get; set; }
-        [Required]
         public int? UserId { get; set; }
         public User User { get; set; }
         [Required]

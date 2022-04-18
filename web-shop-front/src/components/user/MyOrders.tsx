@@ -55,12 +55,20 @@ function MyOrders(props: Props) {
     }
   };
 
+  // useEffect(() => {
+  //   getOrders();
+  // }, [props?.user]);
+
   useEffect(() => {
     getOrders();
-  }, [props.orders]);
+  });
 
   return (
-    <Grid container className={classes.gridContainer} style={{ maxWidth: "80%", marginLeft: "13%" }}>
+    <Grid
+      container
+      className={classes.gridContainer}
+      style={{ maxWidth: "80%", marginLeft: "13%" }}
+    >
       {orders.length !== 0 ? (
         ordersToShow.map((element) => {
           return (
@@ -120,9 +128,7 @@ function MyOrders(props: Props) {
           );
         })
       ) : (
-        <h4 className={classes.labelNoOrder}>
-          Nema kreiranih porudzbina...
-        </h4>
+        <h4 className={classes.labelNoOrder}>Nema kreiranih porudzbina...</h4>
       )}
       <AboutOrder
         onClose={handleClose}

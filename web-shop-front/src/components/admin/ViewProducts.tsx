@@ -32,6 +32,7 @@ import { useStylesViewProducts } from "../../styles/ViewProductsStyle";
 import { StyledTableCell } from "../../styles/ViewProductsStyle";
 import { StyledTableRow } from "../../styles/ViewProductsStyle";
 import { Product } from "../../models/Product";
+import { User } from "../../models/User";
 import { ProductTypeContext, ManufacturerContext } from "../../App";
 import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -49,6 +50,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 interface Props {
+  user: User | null;
   onEditProduct: (product: Product) => any;
 }
 
@@ -89,7 +91,9 @@ function ViewProducts(props: Props) {
 
   const OnDeleteProduct = async (productID: number) => {
     try {
-      const res = await DeleteProduct(productID);
+      if (!props.user?.token) return;
+
+      const res = await DeleteProduct(productID, props.user.token);
 
       if (!res.ok) {
         handleClickAlertError();
@@ -362,11 +366,13 @@ function ViewProducts(props: Props) {
                 {filteredProducts?.map((row: Product) => (
                   <StyledTableRow key={row.id}>
                     <StyledTableCell component="th" scope="row" align="center">
-                      <img src={row.imageUrl} alt="slika_proizvoda" style={{width: "100px", height: "100px"}}/>
+                      <img
+                        src={row.imageUrl}
+                        alt="slika_proizvoda"
+                        style={{ width: "100px", height: "100px" }}
+                      />
                     </StyledTableCell>
-                    <StyledTableCell align="right">
-                      {row.name}
-                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.name}</StyledTableCell>
                     <StyledTableCell align="right">
                       {row?.manufacturer?.name}
                     </StyledTableCell>
@@ -400,7 +406,7 @@ function ViewProducts(props: Props) {
                           <EditIcon color="inherit" fontSize="large" />
                         }
                         component={Link}
-                        to="/home/admin/manageProducts"
+                        to="/pocetna/admin/proizvodi"
                       />
                     </StyledTableCell>
                   </StyledTableRow>

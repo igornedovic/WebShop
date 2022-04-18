@@ -14,12 +14,14 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import SaveIcon from "@material-ui/icons/Save";
 import { validMail } from "../../helpers/Functions";
 import { AddManufacturer } from "../../../services/Api";
+import { User } from "../../../models/User";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 interface Props {
+  user: User | null;
   appendManufacturers: (m: Manufacturer) => void;
 }
 
@@ -71,7 +73,9 @@ function ManageManufacturers(props: Props) {
 
   const onAddManufacturer = async (man: Manufacturer) => {
     try {
-      const response = await AddManufacturer(man);
+      if (!props.user?.token) return;
+
+      const response = await AddManufacturer(man, props.user.token);
       if (response.status === 404) {
         handleClickAlertError();
       } else {

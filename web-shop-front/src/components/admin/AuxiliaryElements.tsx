@@ -5,8 +5,10 @@ import { ProductType } from "../../models/ProductType";
 import { useStylesAuxiliary } from "../../styles/AuxiliaryElementsStyle";
 import ManageManufacturers from "./AuxiliaryElements/ManageManufacturers";
 import ManageProductType from "./AuxiliaryElements/ManageProductType";
+import { User } from "../../models/User";
 
 interface Props {
+  user: User | null;
   appendManufacturers: (m: Manufacturer) => void;
   appendProductTypes: (pt: ProductType) => void;
 }
@@ -16,11 +18,11 @@ function AuxiliaryElements(props: Props) {
   return (
     <Grid className={classes.root}>
       <Grid item xs={5}>
-        <ManageManufacturers appendManufacturers={props.appendManufacturers} />
+        <ManageManufacturers user={props.user} appendManufacturers={props.appendManufacturers} />
       </Grid>
       <Grid item xs={1}></Grid>
       <Grid item xs={5}>
-        <ManageProductType appendProductTypes={props.appendProductTypes} />
+        <ManageProductType user={props.user} appendProductTypes={props.appendProductTypes} />
       </Grid>
     </Grid>
   );

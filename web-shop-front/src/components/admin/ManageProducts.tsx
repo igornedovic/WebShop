@@ -31,6 +31,7 @@ import { Manufacturer } from "../../models/Manufacturer";
 import { ProductType } from "../../models/ProductType";
 import { Characteristics } from "../../models/Characteristics";
 import { Product } from "../../models/Product";
+import { User } from "../../models/User";
 import { ManufacturerContext } from "../../App";
 import { ProductTypeContext } from "../../App";
 import ManageCharacteristics from "./ManageProducts/ManageCharacteristics";
@@ -64,6 +65,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
 )(TableRow);
 
 interface Props {
+  user: User | null;
   productToEdit: Product | null;
   cancelProductToEdit: () => void;
 }
@@ -77,7 +79,7 @@ function ManageProducts(props: Props) {
   );
 
   const classes = useStylesAdmin();
-  const [productType, setProductType] = useState<number>(1);
+  const [productType, setProductType] = useState<number>(19);
   const [manufacturer, setManufacturer] = useState<number>(1);
   const [name, setName] = useState<string | null>("");
   const [price, setPrice] = useState<number | null | "">("");
@@ -86,7 +88,7 @@ function ManageProducts(props: Props) {
   const [openAlert, setOpenAlert] = useState<boolean>(false);
   const [openAlertError, setOpenAlertError] = useState<boolean>(false);
 
-  const [imageSelected, setImageSelected] = useState<any>("");
+  const [imageSelected, setImageSelected] = useState<any>(null);
 
   function IsThereCharacteristic(name: string) {
     return characteristics.find((x) => x.name === name);
@@ -112,9 +114,10 @@ function ManageProducts(props: Props) {
   const handleClear = () => {
     setName("");
     setPrice("");
-    setProductType(1);
+    setProductType(19);
     setManufacturer(1);
     setCharacteristics([]);
+    setImageSelected(null);
 
     if (props.productToEdit !== null) {
       props.cancelProductToEdit();
@@ -180,7 +183,9 @@ function ManageProducts(props: Props) {
 
   const OnAddProduct = async (product: Product) => {
     try {
-      const res = await AddProduct(product);
+      if (!props.user?.token) return;
+
+      const res = await AddProduct(product, props.user.token);
       console.log(res);
       if (res.error) {
         handleClickAlertError();
@@ -196,7 +201,9 @@ function ManageProducts(props: Props) {
 
   const OnUpdateProduct = async (product: Product) => {
     try {
-      const res = await UpdateProduct(product);
+      if (!props.user?.token) return;
+
+      const res = await UpdateProduct(product, props.user.token);
       console.log(res);
       if (res.error) {
         handleClickAlertError();

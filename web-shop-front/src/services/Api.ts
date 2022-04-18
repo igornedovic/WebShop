@@ -7,8 +7,6 @@ import { Order } from "../models/Order";
 
 const baseUrl = "http://localhost:5000/api";
 
-let tokenValue: string;
-
 export async function LoginUser(
   requestUser: RequestUser
 ): Promise<User | null> {
@@ -33,7 +31,8 @@ export async function LoginUser(
         data.isAdmin,
         data.role,
         data.image,
-        data.id
+        data.id,
+        data.token
       );
 
       localStorage.setItem(
@@ -44,12 +43,6 @@ export async function LoginUser(
           user: JSON.stringify(user),
         })
       );
-
-      let dataLocalStorage = JSON.parse(localStorage.getItem("login")!);
-
-      if (dataLocalStorage) {
-        tokenValue = `Bearer ${dataLocalStorage.token}`;
-      }
     })
     .catch((error) => {
       console.log(error);
@@ -79,13 +72,16 @@ export async function GetAllManufacturers(): Promise<Manufacturer[]> {
   return await response.json();
 }
 
-export async function AddManufacturer(manufacturer: Manufacturer) {
+export async function AddManufacturer(
+  manufacturer: Manufacturer,
+  token: string
+) {
   const response = await fetch(baseUrl + "/manufacturer", {
     method: "POST",
     body: JSON.stringify(manufacturer),
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
     },
   });
   return await response.json();
@@ -96,25 +92,25 @@ export async function GetAllProductTypes(): Promise<Manufacturer[]> {
   return await response.json();
 }
 
-export async function AddProductType(productType: ProductType) {
+export async function AddProductType(productType: ProductType, token: string) {
   const response = await fetch(baseUrl + "/productType", {
     method: "POST",
     body: JSON.stringify(productType),
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
     },
   });
   return await response.json();
 }
 
-export async function AddProduct(product: Product) {
+export async function AddProduct(product: Product, token: string) {
   const response = await fetch(baseUrl + `/product`, {
     method: "POST",
     body: JSON.stringify(product),
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
     },
   });
   return await response.json();
@@ -125,48 +121,48 @@ export async function GetAllProducts(): Promise<Product[]> {
   return await response.json();
 }
 
-export async function UpdateProduct(product: Product) {
+export async function UpdateProduct(product: Product, token: string) {
   const response = await fetch(baseUrl + `/product/${product?.id}`, {
     method: "PUT",
     body: JSON.stringify(product),
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
     },
   });
   return await response.json();
 }
 
-export async function DeleteProduct(id: number) {
+export async function DeleteProduct(id: number, token: string) {
   const response = await fetch(baseUrl + `/product/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
     },
   });
   return response;
 }
 
-export async function UpdateUser(user: User) {
+export async function UpdateUser(user: User, token: string) {
   const response = await fetch(baseUrl + `/user/${user?.userId}`, {
     method: "PUT",
     body: JSON.stringify(user),
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
     },
   });
   return await response.json();
 }
 
-export async function AddOrder(order: Order) {
+export async function AddOrder(order: Order, token: string) {
   const response = await fetch(baseUrl + `/order`, {
     method: "POST",
     body: JSON.stringify(order),
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
     },
   });
   return await response.json();
@@ -177,13 +173,14 @@ export async function GetAllOrders(): Promise<Order[]> {
   return await response.json();
 }
 
-export async function UpdateOrder(order: Order) {
+export async function UpdateOrder(order: Order, token: string) {
+  console.log(token);
   const response = await fetch(baseUrl + `/order/${order?.id}`, {
     method: "PUT",
     body: JSON.stringify(order),
     headers: {
       "Content-Type": "application/json",
-      Authorization: tokenValue,
+      Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
   });

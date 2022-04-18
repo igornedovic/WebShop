@@ -13,12 +13,14 @@ import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { useStylesManageManufacturers } from "../../../styles/AuxiliaryElementsStyle";
 import { ProductType } from "../../../models/ProductType";
 import { AddProductType } from "../../../services/Api";
+import { User } from "../../../models/User";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 interface Props {
+  user: User | null;
   appendProductTypes: (pt: ProductType) => void;
 }
 
@@ -65,7 +67,9 @@ function ManageProductType(props: Props) {
 
   const onAddType = async (type: ProductType) => {
     try {
-      const res = await AddProductType(type);
+      if (!props.user?.token) return;
+
+      const res = await AddProductType(type, props.user.token);
       console.log(res);
       if (res.status === 404) {
         console.log("error");

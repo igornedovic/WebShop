@@ -20,6 +20,7 @@ import {
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import moment from "moment";
 import { Order } from "../../../models/Order";
+import { User } from "../../../models/User";
 import { useStylesOrders } from "../../../styles/ManageOrdersStyles";
 import { UpdateOrder } from "../../../services/Api";
 
@@ -28,6 +29,7 @@ function Alert(props: AlertProps) {
 }
 
 interface Props {
+  user: User | null;
   order: Order;
   onChangeOrder: (order: Order) => void;
 }
@@ -88,7 +90,9 @@ function AboutOrder(props: Props) {
 
   const onUpdateStatus = async (order: Order) => {
     try {
-      const res = await UpdateOrder(order);
+      if (!props?.user?.token) return; 
+
+      const res = await UpdateOrder(order, props.user.token);
       console.log(res);
       if (res.error || res.status === 400) {
         handleClickAlertError();

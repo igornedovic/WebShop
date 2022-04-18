@@ -118,7 +118,9 @@ function MyCart(props: Props) {
 
   const onAddOrder = async (order: Order) => {
     try {
-      const res = await AddOrder(order);
+      if (!props?.user?.token) return;
+
+      const res = await AddOrder(order, props.user.token);
       console.log(res);
       if (res?.error?.status === "400") {
         handleClickAlertError();

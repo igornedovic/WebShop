@@ -111,6 +111,28 @@ function App() {
 
   useEffect(() => {
     getData();
+
+    if (typeof localStorage !== "undefined" && localStorage.getItem("login")) {
+      const data = JSON.parse(localStorage.getItem("login")!);
+      const localStorageUser = JSON.parse(data?.user);
+      const token = data?.token;
+
+      const storedUser = new User(
+        localStorageUser.firstName,
+        localStorageUser.lastName,
+        localStorageUser.phone,
+        localStorageUser.email,
+        localStorageUser.username,
+        localStorageUser.password,
+        localStorageUser.isAdmin,
+        localStorageUser.role,
+        localStorageUser.image,
+        localStorageUser.userId,
+        token
+      );
+
+      setUser(storedUser);
+    }
   }, []);
 
   return (
@@ -129,6 +151,7 @@ function App() {
                   index
                   element={
                     <AuxiliaryElements
+                      user={user}
                       appendManufacturers={appendManufacturers}
                       appendProductTypes={appendProductTypes}
                     />
@@ -138,6 +161,7 @@ function App() {
                   path="pomocna"
                   element={
                     <AuxiliaryElements
+                      user={user}
                       appendManufacturers={appendManufacturers}
                       appendProductTypes={appendProductTypes}
                     />
@@ -147,6 +171,7 @@ function App() {
                   path="proizvodi"
                   element={
                     <ManageProducts
+                      user={user}
                       productToEdit={productToEdit}
                       cancelProductToEdit={cancelProductToEdit}
                     />
@@ -154,11 +179,16 @@ function App() {
                 />
                 <Route
                   path="pregledProizvoda"
-                  element={<ViewProducts onEditProduct={setProductToEdit} />}
+                  element={
+                    <ViewProducts
+                      user={user}
+                      onEditProduct={setProductToEdit}
+                    />
+                  }
                 />
                 <Route
                   path="porudzbine"
-                  element={<ManageOrders orders={orders} />}
+                  element={<ManageOrders user={user} orders={orders} />}
                 />
               </Route>
               <Route
