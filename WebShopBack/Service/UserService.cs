@@ -41,7 +41,7 @@ namespace Service
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
                     PasswordSalt = hmac.Key,
                     IsAdmin = user.IsAdmin,
-                    Role = "Admin",
+                    Role = user.Role,
                     Image = user?.Image
                 };
 
