@@ -5,7 +5,7 @@ import { ProductType } from "../models/ProductType";
 import { Product } from "../models/Product";
 import { Order } from "../models/Order";
 
-const baseUrl = "http://localhost:5000/api";
+const baseUrl = process.env.REACT_APP_API_URL;
 
 export async function LoginUser(
   requestUser: RequestUser

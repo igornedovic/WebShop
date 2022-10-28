@@ -3,43 +3,43 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220409183021_UserRolePropertyAdded")]
-    partial class UserRolePropertyAdded
+    [Migration("20221027205623_PostGresInitial")]
+    partial class PostGresInitial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
                 .HasAnnotation("ProductVersion", "5.0.11")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
             modelBuilder.Entity("Data.Models.Manufacturer", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("ID");
 
@@ -50,24 +50,24 @@ namespace Data.Migrations
                 {
                     b.Property<int?>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<DateTime>("DateOfMaking")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("Deadline")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<double>("SumPrice")
-                        .HasColumnType("float");
+                        .HasColumnType("double precision");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
 
                     b.HasKey("ID");
 
@@ -80,24 +80,24 @@ namespace Data.Migrations
                 {
                     b.Property<int?>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<int>("ManufacturerId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<double>("Price")
-                        .HasColumnType("float");
+                        .HasColumnType("double precision");
 
                     b.Property<int>("ProductTypeId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("ID");
 
@@ -112,11 +112,11 @@ namespace Data.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("ID");
 
@@ -125,40 +125,42 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Models.User", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsAdmin")
-                        .HasColumnType("bit");
+                        .HasColumnType("boolean");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("bytea");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("bytea");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("UserId");
 
@@ -170,28 +172,26 @@ namespace Data.Migrations
                     b.HasOne("Data.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.OwnsMany("Data.Models.OrderItem", "OrderItems", b1 =>
                         {
                             b1.Property<int>("OrderId")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.Property<int>("ID")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("integer")
+                                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                             b1.Property<double>("OrderItemPrice")
-                                .HasColumnType("float");
+                                .HasColumnType("double precision");
 
                             b1.Property<int?>("ProductId")
-                                .IsRequired()
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.Property<int>("Quantity")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.HasKey("OrderId", "ID");
 
@@ -205,8 +205,7 @@ namespace Data.Migrations
                             b1.HasOne("Data.Models.Product", "Product")
                                 .WithMany()
                                 .HasForeignKey("ProductId")
-                                .OnDelete(DeleteBehavior.Restrict)
-                                .IsRequired();
+                                .OnDelete(DeleteBehavior.Restrict);
 
                             b1.Navigation("Order");
 
@@ -235,20 +234,20 @@ namespace Data.Migrations
                     b.OwnsMany("Data.Models.Characteristic", "Characteristics", b1 =>
                         {
                             b1.Property<int>("ProductId")
-                                .HasColumnType("int");
+                                .HasColumnType("integer");
 
                             b1.Property<int>("ID")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("integer")
+                                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                             b1.Property<string>("Name")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("text");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasColumnType("text");
 
                             b1.HasKey("ProductId", "ID");
 

@@ -25,9 +25,11 @@ namespace Service
         {
             try
             {
+
                 if (UserExists(user.Username)) return false; // Korisinik vec postoji pa vracamo false
 
                 using var hmac = new HMACSHA512();
+
 
                 var newUser = new User
                 {
@@ -39,12 +41,15 @@ namespace Service
                     PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
                     PasswordSalt = hmac.Key,
                     IsAdmin = user.IsAdmin,
-                    Role = user.Role,
+                    Role = "Admin",
                     Image = user?.Image
                 };
 
                 _context.Add(newUser);
                 await _context.SaveChangesAsync();
+
+
+
                 return true;
             }
             catch (Exception)
@@ -89,7 +94,7 @@ namespace Service
             try
             {
                 using var hmac = new HMACSHA512();
-                
+
                 _context.Users.Update(new User
                 {
                     UserId = userId,
